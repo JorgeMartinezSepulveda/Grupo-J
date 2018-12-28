@@ -50,6 +50,8 @@ DagorDagorath.Preload.prototype = {
     this.load.image('base2', 'Dagor/images/base2.png');
     this.load.image('barravidabg', 'Dagor/images/barravidabg.png');
     this.load.image('barravida', 'Dagor/images/barravida.png');
+    this.load.image('marcobarravida', 'Dagor/images/marcobarravida.png');
+    this.load.image('flecha', 'Dagor/images/flecha.png');
 
     this.load.image('back', 'Dagor/images/A_FONDO.png');
     this.load.image('fondotropas', 'Dagor/images/Panel_Tropas.png');
@@ -57,6 +59,7 @@ DagorDagorath.Preload.prototype = {
     this.load.spritesheet('enanolvl2', 'Dagor/images/Enano_Andando_Sheetlvl2.png', 85, 115);
     this.load.spritesheet('BotonHome', 'Dagor/images/boton_home.png',194,190);
     this.load.spritesheet('Boton_Tropa_Enano', 'Dagor/images/boton_tropa_enano.png',194,190);
+    this.load.spritesheet('Boton_Tropa_Flechas', 'Dagor/images/boton_tropa_flechas.png',194,190);
     this.load.spritesheet('boton_tropa_nivel', 'Dagor/images/boton_tropa_nivel.png',97,95);
     this.load.spritesheet('enanopegando', 'Dagor/images/Enano_Ataque_Spritesheet.png', 114, 115);
     this.load.spritesheet('enanolvl2pegando', 'Dagor/images/Enano_Ataque_Spritesheetlvl2.png', 114, 115);    
