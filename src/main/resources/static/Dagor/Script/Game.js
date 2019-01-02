@@ -32,20 +32,24 @@ var bottonnivel;
 var niveltropa = 1;
 var lvl;
 var textvida = 100;
-var textdaño = 25;
+var textdaño = 35;
 
 var musica;
 var button_final;
 
 var flechas;
+var flechas2;
 var flecha;
+var flecha2;
 var tween;
+var tween2;
 var numeroEnanos = 0;
 var cargaTropa;
 var cargaTropa1;
 var cargaAtaque;
 var cargaAtaque1;
 var flechatimer = 0;
+var flechatimer2 = 0;
 var ataque1;
 var numeroEnemigos = 0;
 var vidaTropa1;
@@ -61,9 +65,15 @@ var botonmusicaoff;
 var textnombre;
 var textcoste;
 var textrecu;
+
 var panel_Stats_flecha;
+var textvida2;
+var textrecu2;
+var textdaño2;
+var textnombre2;
 
 var basetimer = 0;
+var basetimer2 = 0;
 
 var sonidoNavaja;
 var sonidoHacha;
@@ -79,7 +89,11 @@ DagorDagorath.Game = function() {
 DagorDagorath.Game.prototype = {
 	create : function() {
 		musica = this.game.add.audio('isengard', 0.04, true);
-		musica.play();
+		if(musicaSonido == true)
+		{
+			musica.play();
+		}
+		
 		// Dimensiones del mundo
 		this.game.world.setBounds(0, 0, 2000, 667);
 
@@ -110,8 +124,15 @@ DagorDagorath.Game.prototype = {
 		this.flechas.createMultiple(50, ['flecha'],0,true);
 		this.flechas.setAll('y', -50);
 		
+		this.flechas2 = this.game.add.group();
+		this.flechas2.createMultiple(50, ['flecha'],0,true);
+		this.flechas2.setAll('y', -50);
+		
 		flecha = this.game.add.sprite(300, 340, 'flecha');
 		flecha.alpha= 0;
+		
+		flecha2 = this.game.add.sprite(1720, 340, 'flecha');
+		flecha2.alpha= 0;
 		
 		barravidabg1 = this.game.add.sprite(50, 630, 'barravidabg');
 		barravida1 = this.game.add.sprite(50, 630, 'barravida');
@@ -216,6 +237,7 @@ DagorDagorath.Game.prototype = {
 		panel_Stats_flecha.fixedToCamera = true;
 		panel_Stats_flecha.alpha = 0;
 
+		// Texto de panel stats////////////////////////////////////////////////////////////////////////
 		lvl = this.add.text(640, 108, 'Nivel:  1', {fontSize : '17px',fill : '#EEE8AA'});
 		lvl.alpha = 0;
 		lvl.fixedToCamera = true;
@@ -228,30 +250,40 @@ DagorDagorath.Game.prototype = {
 		textrecu.alpha = 0;
 		textrecu.fixedToCamera = true;
 
-		textdaño = this.add.text(552, 108, 'Daño: 35', {
-			fontSize : '17px',
-			fill : '#EEE8AA'
-		});
+		textdaño = this.add.text(552, 108, 'Daño: 35', {fontSize : '17px',fill : '#EEE8AA'});
 		textdaño.alpha = 0;
 		textdaño.fixedToCamera = true;
-		//textdaño.stroke = '#EEE8AA';
-		//textdaño.strokeThickness = 2.5;
 		
-		textcoste = this.add.text(640, 73, 'Coste: 100', {
-			fontSize : '17px',
-			fill : '#EEE8AA'
-		});
+		textcoste = this.add.text(640, 73, 'Coste: 100', {fontSize : '17px',fill : '#EEE8AA'});
 		textcoste.alpha = 0;
 		textcoste.fixedToCamera = true;
 		
-		textnombre = this.add.text(453, 33, 'ENANO', {
-			fontSize : '20px',
-			fill : '#000000'
-		});
+		textnombre = this.add.text(453, 33, 'ENANO -  Cuerpo a cuerpo', {fontSize : '20px',fill : '#000000'});
 		textnombre.alpha = 0;
 		textnombre.fixedToCamera = true;
 		textnombre.stroke = '#EEE8AA';
 		textnombre.strokeThickness = 2.5;
+		// Texto de panel stats////////////////////////////////////////////////////////////////////////
+		
+		// Texto de panel stats////////////////////////////////////////////////////////////////////////
+		textvida2 = this.add.text(552, 73, 'Coste: 800', {fontSize : '17px',fill : '#EEE8AA'});
+		textvida2.alpha = 0;
+		textvida2.fixedToCamera = true;
+		
+		textrecu2 = this.add.text(552, 143,'Regeneración en: 24s', {fontSize : '17px',fill : '#EEE8AA'});
+		textrecu2.alpha = 0;
+		textrecu2.fixedToCamera = true;
+
+		textdaño2 = this.add.text(552, 108,'Daño: 3 o + enemigos', {fontSize : '17px',fill : '#EEE8AA'});
+		textdaño2.alpha = 0;
+		textdaño2.fixedToCamera = true;
+
+		textnombre2 = this.add.text(446, 33, 'LLUVIA FLECHAS - Especial', {fontSize : '20px',fill : '#000000'});
+		textnombre2.alpha = 0;
+		textnombre2.fixedToCamera = true;
+		textnombre2.stroke = '#EEE8AA';
+		textnombre2.strokeThickness = 2.5;
+		// Texto de panel stats////////////////////////////////////////////////////////////////////////
 		
 		vidaTropa = this.game.add.sprite(780, 555, 'barravidabg');
 		vidaTropa.width = 30;
@@ -350,7 +382,7 @@ DagorDagorath.Game.prototype = {
 		tuto_pantalla.alpha = 1;
 		tuto_pantalla.fixedToCamera = true;
 
-		this.game.time.events.loop(3000,this.desinteligenciaArtificial, this); //this.game.rnd.integerInRange(3000, 8000)
+		//this.game.time.events.loop(3000,this.desinteligenciaArtificial, this); //this.game.rnd.integerInRange(3000, 8000)
 		
 		this.game.time.events.loop(500,this.comprobarVida, this);
 		this.game.time.events.loop(500,this.comprobarVida2, this);
@@ -416,7 +448,7 @@ DagorDagorath.Game.prototype = {
 		dineroTexto = 2000;
 		dineroia = 2000;
 		enanotimer = 0;
-		//contadorenano = 0;
+		numeroEnanos = 0;
 		enAtacando = 0;
 		trasAtacando = 0;
 		continua = 0;
@@ -429,6 +461,11 @@ DagorDagorath.Game.prototype = {
 		tuto_pantalla.alpha = 1;
 		numeroEnemigos = 0;
 		flechatimer = 0;
+		flechatimer2 = 0;
+		basetimer = 0;
+		basetimer2 = 0;
+		mostrarVida2 = false;
+		mostrarVida = false;
 
 		musica.pause();
 		musica.destroy();
@@ -442,19 +479,24 @@ DagorDagorath.Game.prototype = {
 		dineroTexto = 2000;
 		dineroia = 2000;
 		enanotimer = 0;
-		//contadorenano = 0;
+		numeroEnanos = 0;
 		enAtacando = 0;
 		trasAtacando = 0;
 		continua = 0;
 		showDebug = true;
 		niveltropa = 1;
 		textvida = 100;
-		textdaño = 25;
+		textdaño = 40;
 		numeroEnemigos = 0;
 		
 		tuto = false;
 		tuto_pantalla.alpha = 1;
 		flechatimer = 0;
+		flechatimer2 = 0;
+		efectosSonido = true;
+		musicaSonido = true;
+		basetimer = 0;
+		basetimer2 = 0;
 		
 		musica.pause();
 		musica.destroy();
@@ -490,6 +532,7 @@ DagorDagorath.Game.prototype = {
 		{
 			this.game.paused = true;
 		}
+		
 		// movimiento de camara con raton
 		if ((this.game.input.mousePointer.x > 940) && (this.game.input.mousePointer.y > 90))
 		{
@@ -524,11 +567,18 @@ DagorDagorath.Game.prototype = {
 		if (ataque1.input.pointerOver()) 
 		{
 			panel_Stats_flecha.alpha = 1;
+			textvida2.alpha = 1;
+			textrecu2.alpha = 1;
+			textdaño2.alpha = 1;
+			textnombre2.alpha = 1;
 		} 
 		else 
 		{
 			panel_Stats_flecha.alpha = 0;
-
+			textvida2.alpha = 0;
+			textrecu2.alpha = 0;
+			textdaño2.alpha = 0;
+			textnombre2.alpha = 0;
 		}
 		//panel_Stats_flecha
 		
@@ -587,10 +637,13 @@ DagorDagorath.Game.prototype = {
 				if(this.trasgos.getFirstExists() != undefined)
 				{
 					var trast = this.trasgos.getFirstExists();
+					
 					if((trast.x <= 430)&&(trast.vida >0))
 					{
 						this.disparaBase(trast.x);
+						
 						basetimer = 1;
+						
 						this.game.time.events.add(Phaser.Timer.SECOND * 0.45,
 								function() 
 								{
@@ -598,8 +651,10 @@ DagorDagorath.Game.prototype = {
 									if((trast.vida <=0))
 									{
 										trast.kill();
+										trasAtacando = 0;
 										numeroEnemigos--;
-										
+										dineros+= 80;
+										dineroTexto.setText(dineros);
 										
 										mostrarVida = false;
 										vidaTropa1.alpha = 0;
@@ -615,6 +670,52 @@ DagorDagorath.Game.prototype = {
 								function() 
 								{
 									basetimer = 0;
+								}, this);
+					}
+				}
+			}
+		}
+		
+		if(basetimer2 == 0)
+		{
+			if(this.enanos.getFirstExists() != undefined)
+			{
+				if(this.trasgos.getFirstExists() == undefined)
+				{
+					var enan1 = this.enanos.getFirstExists();
+					
+					if((enan1.x >= 1600)&&(enan1.vida > 0))
+					{
+						this.disparaBase1(enan1.x);
+						
+						basetimer2 = 1;
+						
+						this.game.time.events.add(Phaser.Timer.SECOND * 0.45,
+								function() 
+								{
+									enan1.vida -= 25
+									
+									if((enan1.vida <=0))
+									{
+										enan1.kill();
+										enAtacando = 0;
+										numeroEnanos--;
+										dineroia+= 80;
+										
+										mostrarVida2 = false;
+										vidaAliado1.alpha = 0;
+										vidaAliado.alpha = 0;
+										marcovidaAliado.alpha = 0;
+										
+										vidaAliado1.width = 30;
+										this.continua();
+									}
+								}, this);
+						
+						this.game.time.events.add(Phaser.Timer.SECOND * 3,
+								function() 
+								{
+									basetimer2 = 0;
 								}, this);
 					}
 				}
@@ -694,8 +795,8 @@ DagorDagorath.Game.prototype = {
 			dineroTexto.setText(dineros);
 			niveltropa = 2;
 			lvl.setText('lvl = ' + niveltropa);
-			textvida.setText('vida = ' + 105);
-			textdaño.setText('daño = ' + 30);
+			textvida.setText('vida = ' + 110);
+			textdaño.setText('daño = ' + 45);
 		}
 	},
 
@@ -710,7 +811,7 @@ DagorDagorath.Game.prototype = {
 			en.height = 75;
 			
 			en.vida = 100;
-			en.daño = 35;
+			en.daño = 40;
 			en.parado = false;
 			
 			en.animations.add('walk');
@@ -732,8 +833,8 @@ DagorDagorath.Game.prototype = {
 			en2.width = 55.25;
 			en2.height = 75;
 			
-			en2.vida = 105;
-			en2.daño = 30;
+			en2.vida = 110;
+			en2.daño = 45;
 			
 			en2.animations.add('andar');
 			en2.animations.play('andar', 7.5, true);
@@ -780,7 +881,7 @@ DagorDagorath.Game.prototype = {
 			switch(numeroEnanos) 
 			{
 			  case 0:
-				  if((dineroia >= 500)&&(numeroEnemigos <= 2))
+				  if((dineroia >= 500)&&(numeroEnemigos <= 2)&&(dinero >= 500))
 				  {
 					  this.generateTrasgos();
 				  }
@@ -790,7 +891,7 @@ DagorDagorath.Game.prototype = {
 				  {
 					  this.generateTrasgos();
 					  
-					  if((dinero > 100)&&(dineroia >= 800))
+					  if((dinero > 500)&&(dineroia >= 800))
 					  {
 						  this.game.time.events.add(Phaser.Timer.SECOND * 1.5,this.generateTrasgos, this);  
 					  }
@@ -801,7 +902,7 @@ DagorDagorath.Game.prototype = {
 				  {
 					  this.generateTrasgos();
 					  
-					  if((dinero >= 100)&&(dineroia >= 500))
+					  if((dinero >= 500)&&(dineroia >= 500))
 					  {
 						  this.game.time.events.add(Phaser.Timer.SECOND * 2,this.generateTrasgos, this);  
 					  }
@@ -819,7 +920,7 @@ DagorDagorath.Game.prototype = {
 				  }
 				  else if(numeroEnemigos == 2)
 				  {
-					  if(dineroia >= 500)
+					  if(dineroia >= 700)
 					  {
 						  this.game.time.events.add(Phaser.Timer.SECOND * 1,this.generateTrasgos, this);  
 					  }
@@ -844,16 +945,47 @@ DagorDagorath.Game.prototype = {
 				  }
 			    break;
 			  case 5:
-				  this.generateTrasgos();
+				  if(numeroEnemigos < 4)
+				  {
+					  this.generateTrasgos();
+					  
+					  if((dineroia >= 900)&&(numeroEnemigos < 3))
+					  {
+						  this.ataqueEspecial2();
+					  }
+					  
+					  if(dineroia >= 500)
+					  {
+						  this.game.time.events.add(Phaser.Timer.SECOND * 1,this.generateTrasgos, this);  
+					  }
+					  
+				  }
+				  else if(numeroEnemigos == 4)
+				  {
+					  if(dineroia >= 700)
+					  {
+						  this.game.time.events.add(Phaser.Timer.SECOND * 1,this.generateTrasgos, this);  
+					  }
+				  }
 			    break;
 			  case 6:
-				  this.generateTrasgos();
+				  if(numeroEnemigos < 5)
+				  {
+					  if((dineroia >= 900)&&(numeroEnemigos < 2))
+					  {
+						  this.ataqueEspecial2();
+					  }
+					  
+					  this.generateTrasgos();
+					  
+					  if(dineroia >= 500)
+					  {
+						  this.game.time.events.add(Phaser.Timer.SECOND * 1,this.generateTrasgos, this);  
+					  }
+					  
+				  }
 			    break;
 			}
-		}
-		else
-		{
-			console.log("LA IA NO TIENE MONY");
 		}
 	},
 	
@@ -886,6 +1018,21 @@ DagorDagorath.Game.prototype = {
 		tween.onComplete.add(function(){flecha.alpha = 0; flecha.x = 300; flecha.y = 340;}, this);
 	},
 	
+	disparaBase1: function(ex)
+	{
+		flecha2.alpha= 1;
+		
+		var xo = ex + 45;
+		flecha2.angle = 180 - ((Math.tan((xo - 300)/240)) * (180/Math.PI));
+		
+		tween2 = this.game.add.tween(flecha2).to({x: xo}, 450, Phaser.Easing.Linear.None, true);   
+		tween2.start();
+		tween2 = this.game.add.tween(flecha2).to({y: 580}, 450, Phaser.Easing.Linear.None, true);   
+		tween2.start();
+		
+		tween2.onComplete.add(function(){flecha2.alpha = 0; flecha2.x = 1720; flecha2.y = 340;}, this);
+	},
+	
 	ataqueEspecial: function()
 	{
 		if((dineros >= 800)&&(flechatimer == 0))
@@ -902,7 +1049,7 @@ DagorDagorath.Game.prototype = {
 			this.game.time.events.add(Phaser.Timer.SECOND * 24,this.flechastimer , this);
 			
 			var muertes = this.game.rnd.integerInRange(3, numeroEnemigos-1);
-			
+			console.log("MUERTES A MATAR: " + muertes);
 			this.game.time.events.add(Phaser.Timer.SECOND * 2.15,
 					function() 
 					{
@@ -922,7 +1069,55 @@ DagorDagorath.Game.prototype = {
 					}, this);
 		}
 	},
+	
+	flechadora2: function()
+	{
+		for(var i = 0; i < 50; i++)
+		{
+			var flech = this.flechas2.getAt(i);
+			flech.x = 360 + (i*30);
+			flech.y = -60;
+			flech.angle = 180;
+			
+			tween2 = this.game.add.tween(flech).to({y: 600}, this.game.rnd.integerInRange(1700, 2000), Phaser.Easing.Quadratic.In, true);   
+			tween2.start();
+		}
+	},
+	
+	ataqueEspecial2: function()
+	{
+		if((dineroia >= 800)&&(flechatimer2 == 0))
+		{
+			flechatimer2 = 1;
 
+			this.flechadora2();
+			
+			dineroia -= 800;
+			
+			this.game.time.events.add(Phaser.Timer.SECOND * 24, this.flechastimer2, this);
+			
+			var muertes = this.game.rnd.integerInRange(3, numeroEnanos-1);
+			
+			this.game.time.events.add(Phaser.Timer.SECOND * 2.15,
+					function() 
+					{
+						this.flechas2.setAll('y', -60);
+						
+						for(var i = 0; i < muertes; i++)
+						{
+							var enemigo = this.enanos.getFirstExists();
+							var enemigo1 = this.enanos.getRandomExists();
+							
+							if((enemigo1 != undefined)&&(enemigo1 != enemigo))
+							{
+								enemigo1.kill();
+								numeroEnanos--;
+							}
+						}
+					}, this);
+		}
+	},
+	
 	enanostimer : function() 
 	{
 		enanotimer = 0;
@@ -933,6 +1128,11 @@ DagorDagorath.Game.prototype = {
 	{
 		flechatimer = 0;
 		ataque1.alpha = 1;
+	},
+	
+	flechastimer2 : function() 
+	{
+		flechatimer2 = 0;
 	},
 
 	pelea : function(ena, trasga) 
@@ -1150,34 +1350,50 @@ DagorDagorath.Game.prototype = {
 
 	colisionconbase : function(tropa, base) {
 		// tropa.animations.stop(null, true);
+		console.log('APOSJDPASJDPASODJPASODJAPSDJASPDJASPDJASPDKJASPDKJASPDIJASD');
 		tropa.body.velocity.x = 0;
 		tropa.parado = true;
 		this.peleabase(tropa, base);
 	},
 
-	peleabase : function(tropa, base) {
+	peleabase : function(tropa, base) 
+	{
+		console.log('AQUI SI ');
 		if ((enAtacando == 0)&&(base.vida > 0))
 		{
+			console.log('AQUI NO');
 			enAtacando = 1;
 			
 			if (niveltropa == 1) {
 				tropa.loadTexture('enanopegando', 0);
 				tropa.animations.add('pegar');
-				tropa.animations.play('pegar', 7.5, true);
+				tropa.animations.play('pegar', 5, true);
 			}
 			else if (niveltropa == 2) {
 				tropa.loadTexture('enanolvl2pegando', 0);
 				tropa.animations.add('pegarlvl2');
-				tropa.animations.play('pegarlvl2', 7.5, true);
+				tropa.animations.play('pegarlvl2', 5, true);
 			}
 			
-			this.game.time.events.add(Phaser.Timer.SECOND * 0.70, function() {
+			this.game.time.events.add(Phaser.Timer.SECOND * 0.60, function()
+			{
+				if(efectosSonido == true)
+				{
+					sonidoHacha.play();
+				}
+				
 				base.vida -= tropa.daño;
-				enAtacando = 0;
-				tropa.body.velocity.x = 1;
-				barravida2.width -= tropa.daño;
+				barravida2.width -= (tropa.daño/10);
+
+				this.game.time.events.add(Phaser.Timer.SECOND * 1.40, function() 
+						{
+							enAtacando = 0;
+							tropa.body.velocity.x = 1;
+						}, this);
+				
 			}, this);
 		}
+		
 		if (base.vida <= 0) {
 			tropa.animations.stop(null, true);
 			this.finalpartida1();
@@ -1201,13 +1417,20 @@ DagorDagorath.Game.prototype = {
 			tropa.animations.add('pegar');
 			tropa.animations.play('pegar',10, true);
 			
-			this.game.time.events.add(Phaser.Timer.SECOND * 0.50, function() {
+			this.game.time.events.add(Phaser.Timer.SECOND * 0.30, function() 
+			{
 				base.vida -= tropa.daño;
-				trasAtacando = 0;
-				tropa.body.velocity.x = -1;
 				barravida1.width -= (tropa.daño/10);
+
+				this.game.time.events.add(Phaser.Timer.SECOND * 0.70, function() 
+						{
+							trasAtacando = 0;
+							tropa.body.velocity.x = -1;
+						}, this);
+				
 			}, this);
 		}
+		
 		if (base.vida <= 0) 
 		{
 			tropa.animations.stop(null, true);
