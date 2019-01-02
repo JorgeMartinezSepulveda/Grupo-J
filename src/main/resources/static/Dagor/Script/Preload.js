@@ -18,6 +18,8 @@ DagorDagorath.Preload.prototype = {
     this.load.audio('Menu_Music','Dagor/audio/The Lord Of The Rings - Concerning Hobbits.wav');
     this.load.audio('Cinematic_Music','Dagor/audio/May It Be - Lord Of The Rings.wav');
     this.load.audio('isengard','Dagor/audio/isengard.ogg');
+    this.load.audio('stab','Dagor/audio/stab.wav');
+    this.load.audio('slash','Dagor/audio/slash.wav');
 
 
     //load game assets
@@ -50,6 +52,7 @@ DagorDagorath.Preload.prototype = {
     this.load.image('base2', 'Dagor/images/base2.png');
     this.load.image('barravidabg', 'Dagor/images/barravidabg.png');
     this.load.image('barravida', 'Dagor/images/barravida.png');
+    this.load.image('barracarga', 'Dagor/images/barracargatropa.png');
     this.load.image('marcobarravida', 'Dagor/images/marcobarravida.png');
     this.load.image('flecha', 'Dagor/images/flecha.png');
 
@@ -60,19 +63,23 @@ DagorDagorath.Preload.prototype = {
     this.load.spritesheet('BotonHome', 'Dagor/images/boton_home.png',194,190);
     this.load.spritesheet('Boton_Tropa_Enano', 'Dagor/images/boton_tropa_enano.png',194,190);
     this.load.spritesheet('Boton_Tropa_Flechas', 'Dagor/images/boton_tropa_flechas.png',194,190);
-    this.load.spritesheet('boton_tropa_nivel', 'Dagor/images/boton_tropa_nivel.png',97,95);
+    this.load.spritesheet('boton_tropa_nivel', 'Dagor/images/boton_tropa_nivel.png',25,25);
     this.load.spritesheet('enanopegando', 'Dagor/images/Enano_Ataque_Spritesheet.png', 114, 115);
     this.load.spritesheet('enanolvl2pegando', 'Dagor/images/Enano_Ataque_Spritesheetlvl2.png', 114, 115);    
     this.load.spritesheet('Trasgo_Andando_Sheet', 'Dagor/images/Trasgo_Andando_Sheet.png',105,75);
     this.load.spritesheet('Trasgo_Pegando', 'Dagor/images/Trasgo_Atacando_Sheet.png',105,75);
     this.load.image('Menu_Pausa', 'Dagor/images/Imagen_Menu_Pausa.png');
     this.load.image('Mascara_Menu_Pausa', 'Dagor/images/Mascara_MenuPausa.png');
+    this.load.image('Mascara_Tuto', 'Dagor/images/Mascara_Tuto.png');
     this.load.spritesheet('Boton_Menu_Pausa', 'Dagor/images/boton_pausa.png',194,190);
+    this.load.spritesheet('sonido', 'Dagor/images/boton_audio.png',194,190);
+    this.load.spritesheet('sonido_off', 'Dagor/images/boton_audio_off.png',194,190);
     this.load.spritesheet('Boton_Vuelta_A_Inicio', 'Dagor/images/boton_pausa_regresoAMenu.png',296,143);
     this.load.spritesheet('Boton_Reinicio', 'Dagor/images/Boton_Final_Reiniciar.png',296,143);
     this.load.image('Pantalla_Final_Victoria', 'Dagor/images/Pantalla_Victoria.png');
     this.load.image('Pantalla_Final_Derrota', 'Dagor/images/Pantalla_Derrota.png');
     this.load.image('Panel_Stats_Enano', 'Dagor/images/Panel_Stats.png');
+    this.load.image('Panel_Stats_Flecha', 'Dagor/images/Panel_Stats_flecha.png');//
 
     this.load.image('Texto_1', 'Dagor/images/Texto1.png');
     this.load.image('Texto_1_2', 'Dagor/images/Texto1_2.png');
