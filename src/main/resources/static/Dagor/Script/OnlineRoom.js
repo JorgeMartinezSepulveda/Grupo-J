@@ -46,6 +46,8 @@ var serverDisconnected = false;
 var timerEvents = [];
 var iAux = 1;
 
+var connection;
+
 DagorDagorath.OnlineRoom = function(){};
 
 DagorDagorath.OnlineRoom.prototype = {
@@ -215,10 +217,19 @@ DagorDagorath.OnlineRoom.prototype = {
 					texto2.alpha = 0;
 					texto7.alpha = 1;
 					var idAux = id;
+					var bandoAux = bando;
 					this.game.time.events.add(Phaser.Timer.SECOND*2, function()
 						{
 							this.reiniciarVariables();
-							this.game.state.start('OnlineGame',true,false, idAux);
+							if(bandoAux == 1)
+							{
+								this.game.state.start('OnlineGame',true,false, idAux, connection, bandoAux);
+							}
+							else if(bandoAux == 2)
+							{
+								this.game.state.start('OnlineGame2',true,false, idAux, connection, bandoAux);
+							}
+							
 						}, this);
 				} 
 				else if(numJugadores == 1)
@@ -410,6 +421,11 @@ DagorDagorath.OnlineRoom.prototype = {
 							console.log(name);
 		    				bando = 1;
 		    				createUser();
+		    				var msg = {
+									name : name,
+									message : "Ima gei"
+								  }    
+		    				connection.send(JSON.stringify(msg));
 						}
 						else
 						{
@@ -470,6 +486,11 @@ DagorDagorath.OnlineRoom.prototype = {
 							console.log(name);
 		    				bando = 2;
 		    				createUser();
+		    				var msg = {
+										name : name,
+										message : "Ima gei"
+									  }    
+							connection.send(JSON.stringify(msg));
 						}
 						else
 						{
@@ -561,3 +582,18 @@ function createUser(){
 			writeUser();
 		})
 }
+
+$(document).ready(function() {
+
+	connection = new WebSocket('ws://localhost:8090/dagor');
+	
+	connection.onerror = function(e) 
+	{
+		console.log("WS error: " + e);
+	}
+
+	connection.onclose = function() 
+	{
+		console.log("Closing socket");
+	}
+})
