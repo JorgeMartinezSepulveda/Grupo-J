@@ -10,5 +10,6 @@ DagorDagorath.game.state.add('ControlMenu', DagorDagorath.ControlMenu);
 DagorDagorath.game.state.add('Cinematic', DagorDagorath.Cinematic);
 DagorDagorath.game.state.add('OnlineRoom', DagorDagorath.OnlineRoom);
 DagorDagorath.game.state.add('OnlineGame', DagorDagorath.OnlineGame);
+DagorDagorath.game.state.add('OnlineGame2', DagorDagorath.OnlineGame2);
 
 DagorDagorath.game.state.start('Boot');

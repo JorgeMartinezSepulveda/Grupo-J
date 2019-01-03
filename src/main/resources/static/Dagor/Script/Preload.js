@@ -62,6 +62,7 @@ DagorDagorath.Preload.prototype = {
     this.load.spritesheet('enanolvl2', 'Dagor/images/Enano_Andando_Sheetlvl2.png', 85, 115);
     this.load.spritesheet('BotonHome', 'Dagor/images/boton_home.png',194,190);
     this.load.spritesheet('Boton_Tropa_Enano', 'Dagor/images/boton_tropa_enano.png',194,190);
+    this.load.spritesheet('Boton_Tropa_Trasgo', 'Dagor/images/boton_tropa_trasgo.png',194,190);
     this.load.spritesheet('Boton_Tropa_Flechas', 'Dagor/images/boton_tropa_flechas.png',194,190);
     this.load.spritesheet('boton_tropa_nivel', 'Dagor/images/boton_tropa_nivel.png',25,25);
     this.load.spritesheet('enanopegando', 'Dagor/images/Enano_Ataque_Spritesheet.png', 114, 115);
@@ -79,6 +80,7 @@ DagorDagorath.Preload.prototype = {
     this.load.image('Pantalla_Final_Victoria', 'Dagor/images/Pantalla_Victoria.png');
     this.load.image('Pantalla_Final_Derrota', 'Dagor/images/Pantalla_Derrota.png');
     this.load.image('Panel_Stats_Enano', 'Dagor/images/Panel_Stats.png');
+    this.load.image('Panel_Stats_Trasgo', 'Dagor/images/Panel_Stats_trasgo.png');
     this.load.image('Panel_Stats_Flecha', 'Dagor/images/Panel_Stats_flecha.png');//
 
     this.load.image('Texto_1', 'Dagor/images/Texto1.png');
