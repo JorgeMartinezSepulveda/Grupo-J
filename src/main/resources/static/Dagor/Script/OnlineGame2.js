@@ -56,8 +56,8 @@ var vidaTropa1;
 var mostrarVida = false;
 var vidaAliado1;
 var mostrarVida2 = false;
-var botonsonido;
-var botonsonidoff;
+var botonsonidoaux;
+var botonsonidoffaux;
 var efectosSonido = true;
 var musicaSonido = true;
 var botonmusica;
@@ -91,8 +91,21 @@ var iAux = 1;
 var pantallaServidorDesconectado;
 var pantalla_Jugador_Desconectado;
 
+var sacaEn = false;
+var serverDisconnected = false;
+
+var especial_Id = [];
+var especial_num = 0;
+var especial_numaux = 0;
+
 var connection;
 var bando;
+var trasgosId = 0;
+var tirarEspecial = false;
+
+var enanId = 0;
+
+var opciones = true;
 
 DagorDagorath.OnlineGame2 = function(){};
 
@@ -115,13 +128,33 @@ DagorDagorath.OnlineGame2.prototype = {
 
 			connection.onclose = function() {
 				console.log("Closing socket");
+				serverDisconnected = true;
 			}
 			
 			connection.onmessage = function(msg) 
 			{
 				console.log("Er mensajico: " + msg.data);
+				
 				var message = JSON.parse(msg.data)
 				
+				switch(message.name)
+				{
+					case "tropa_En":
+						sacaEn = true;
+						break;
+						
+					case "especial_En":
+						especial_num = parseInt(message.message);
+						tirarEspecial = true;
+						break;
+						
+					case "especial_enem":
+						var inte = parseInt(message.message);
+						especial_Id[especial_numaux] = inte;
+						especial_numaux++;
+						break;
+						
+				}				
 			}
 			
 			// Dimensiones del mundo
@@ -192,26 +225,23 @@ DagorDagorath.OnlineGame2.prototype = {
 			image1.height = 75;
 			image1.fixedToCamera = true;
 			
-			cargaTropa = this.game.add.sprite(780, 22, 'barravidabg');
+			cargaTropa = this.game.add.sprite(795, 22, 'barravidabg');
 			cargaTropa.angle = 90;
 			cargaTropa.width = 60;
 			cargaTropa.height = 6;
 			cargaTropa.fixedToCamera = true;
 			
-			cargaTropa1 = this.game.add.sprite(780, 22, 'barracarga');
+			cargaTropa1 = this.game.add.sprite(795, 22, 'barracarga');
 			cargaTropa1.angle = 90;
 			cargaTropa1.width = 60;
 			cargaTropa1.height = 6;
 			cargaTropa1.fixedToCamera = true;
 			
-			marcocargatropa= this.game.add.sprite(780, 22, 'marcobarravida');
+			marcocargatropa= this.game.add.sprite(795, 22, 'marcobarravida');
 			marcocargatropa.angle = 90;
 			marcocargatropa.width = 60;
 			marcocargatropa.height = 6;
 			marcocargatropa.fixedToCamera = true;
-
-			bottonnivel = this.game.add.button(855, 55, 'boton_tropa_nivel', this.subirNivel, this, 1, 0);
-			bottonnivel.fixedToCamera = true;
 
 			cargaAtaque = this.game.add.sprite(895, 22, 'barravidabg');
 			cargaAtaque.angle = 90;
@@ -231,13 +261,13 @@ DagorDagorath.OnlineGame2.prototype = {
 			marcocargataque.height = 6;
 			marcocargataque.fixedToCamera = true;
 			
-			tropa1 = this.game.add.button(787, 22, 'Boton_Tropa_Trasgo',this.actionOnClick1, this, 1, 0);
+			tropa1 = this.game.add.button(802, 22, 'Boton_Tropa_Trasgo',this.actionOnClick1, this, 1, 0);
 			tropa1.width = 60;
 			tropa1.height = 60;
 			tropa1.fixedToCamera = true;
 			tropa1.inputEnabled = true;
 			
-			ataque1 = this.game.add.button(902, 22, 'Boton_Tropa_Flechas',this.ataqueEspecial2, this, 1, 0);
+			ataque1 = this.game.add.button(902, 22, 'Boton_Tropa_Flechas',this.ataqueEspecial, this, 1, 0);
 			ataque1.width = 60;
 			ataque1.height = 60;
 			ataque1.fixedToCamera = true;
@@ -346,16 +376,28 @@ DagorDagorath.OnlineGame2.prototype = {
 			marcovidaAliado.width = 30;
 			marcovidaAliado.height = 5;
 			marcovidaAliado.alpha = 0;
+			
+			botonsonidoaux = this.game.add.button(15, 15, 'sonido', this.sonido, this, 1, 0);
+			botonsonidoaux.width = 50;
+			botonsonidoaux.height = 50;
+			botonsonidoaux.alpha = 1;
+			botonsonidoaux.fixedToCamera = true;
+			
+			botonsonidoffaux = this.game.add.button(15, 15, 'sonido_off', this.sonido, this, 1, 0);
+			botonsonidoffaux.width = 50;
+			botonsonidoffaux.height = 50;
+			botonsonidoffaux.alpha = 0;
+			botonsonidoffaux.fixedToCamera = true;
+			
+			botonHome = this.game.add.button(15, 75, 'BotonHome', this.backToRoom, this, 1, 0);
+			botonHome.width = 50;
+			botonHome.height = 50;
+			botonHome.fixedToCamera = true;
 
 			mascara = this.game.add.sprite(0, 0, 'Mascara_Menu_Pausa');
 			mascara.alpha = 0;
 			mascara.fixedToCamera = true;
-
-			button = this.game.add.button(15, 15, 'Boton_Menu_Pausa', this.actionOnClick, this, 1, 0);
-			button.width = 50;
-			button.height = 50;
-			button.fixedToCamera = true;
-
+			
 			image_menu = this.game.add.sprite(180, 100, 'Menu_Pausa');
 			image_menu.width = 640;
 			image_menu.height = 462;
@@ -390,26 +432,6 @@ DagorDagorath.OnlineGame2.prototype = {
 			button2_menu_Pause.alpha = 0;
 			button2_menu_Pause.fixedToCamera = true;
 			
-			botonsonido = this.game.add.button(-100, 0, 'sonido', this.sonido, this, 1, 0);
-			botonsonido.width = 50;
-			botonsonido.height = 50;
-			botonsonido.fixedToCamera = true;
-			
-			botonsonidoff = this.game.add.button(-100, 0, 'sonido_off', this.sonido, this, 1, 0);
-			botonsonidoff.width = 50;
-			botonsonidoff.height = 50;
-			botonsonidoff.fixedToCamera = true;
-			
-			botonmusica  = this.game.add.button(-100, 0, 'sonido', this.sonidoMusica, this, 1, 0);
-			botonmusica.width = 50;
-			botonmusica.height = 50;
-			botonmusica.fixedToCamera = true;
-			
-			botonmusicaoff  = this.game.add.button(-100, 0, 'sonido_off', this.sonidoMusica, this, 1, 0);
-			botonmusicaoff.width = 50;
-			botonmusicaoff.height = 50;
-			botonmusicaoff.fixedToCamera = true;
-			
 			pantallaServidorDesconectado = this.game.add.sprite(180, 100, 'Pantalla_Servidor_Desconectado');
 		    pantallaServidorDesconectado.width = 640;
 		    pantallaServidorDesconectado.height = 462;
@@ -422,11 +444,11 @@ DagorDagorath.OnlineGame2.prototype = {
 		    pantalla_Jugador_Desconectado.alpha = 0;
 		    pantalla_Jugador_Desconectado.fixedToCamera = true;
 		    
-			tuto_pantalla = this.game.add.sprite(0, 0, 'Mascara_Tuto');
+			tuto_pantalla = this.game.add.sprite(0, 0, 'Mascara_Tuto2');
 			tuto_pantalla.alpha = 1;
 			tuto_pantalla.fixedToCamera = true;
-
-			//this.game.time.events.loop(3000,this.desinteligenciaArtificial, this); //this.game.rnd.integerInRange(3000, 8000)
+			
+			timerEvents[iAux] = this.game.time.events.loop(Phaser.Timer.SECOND*0.5, this.comprobarJugadores, this);
 			
 			this.game.time.events.loop(500,this.comprobarVida, this);
 			this.game.time.events.loop(500,this.comprobarVida2, this);
@@ -434,87 +456,64 @@ DagorDagorath.OnlineGame2.prototype = {
 			this.game.input.onDown.add(this.unpause, this);
 		},
 		
+		comprobarJugadores: function()
+		{
+			$.ajax({
+				method: 'GET',
+				url: 'http://192.168.0.155:8090/jugadores/',
+				success: function(jugadores)
+				{
+					numJugadores = jugadores.length;
+				}
+			}).fail(function () {
+				serverDisconnected = true;
+		    })
+		    
+		    if(numJugadores == 1)
+		    {
+		    	mascaraFin.alpha = 1;
+		    	pantalla_Jugador_Desconectado.alpha = 1;
+		    	this.game.time.events.add(Phaser.Timer.SECOND*6, function()
+						{
+							mascaraFin.alpha = 0;
+							pantalla_Jugador_Desconectado.alpha = 0;
+							this.backToRoom();
+						}, this);
+		    }
+		},
+		
 		sonido: function()
 		{
 			if(efectosSonido == true)
 			{
-				botonsonidoff.x = botonsonido.x;
-				botonsonidoff.y = botonsonido.y;
+				musica.pause();
 				
-				botonsonido.x = -200;
-				botonsonido.y = -200;
+				botonsonidoffaux.x = 15;
+				botonsonidoffaux.y = 15;
+				botonsonidoffaux.alpha = 1;
+				
+				botonsonidoaux.x = -200;
+				botonsonidoaux.y = -200;
+				botonsonidoaux.alpha = 0;
 				
 				efectosSonido = false;
+				musicaSonido = false;
 			}
 			else if(efectosSonido == false)
 			{
-				botonsonido.x = botonsonidoff.x;
-				botonsonido.y = botonsonidoff.y;
-				
-				botonsonidoff.x = -200;
-				botonsonidoff.y = -200;
-				
-				efectosSonido = true;
-			}
-		},
-		
-		sonidoMusica: function()
-		{
-			if(musicaSonido == true)
-			{
-				musica.pause();
-				
-				botonmusicaoff.x = botonmusica.x;
-				botonmusicaoff.y = botonmusica.y;
-				
-				botonmusica.x = -200;
-				botonmusica.y = -200;
-				
-				musicaSonido = false;
-			}
-			else if(musicaSonido == false)
-			{
 				musica.play();
 				
-				botonmusica.x = botonmusicaoff.x;
-				botonmusica.y = botonmusicaoff.y;
+				botonsonidoaux.x = 15;
+				botonsonidoaux.y = 15;
+				botonsonidoaux.alpha = 1;
 				
-				botonmusicaoff.x = -200;
-				botonmusicaoff.y = -200;
+				botonsonidoffaux.x = -200;
+				botonsonidoffaux.y = -200;
+				botonsonidoffaux.alpha = 0;
 				
+				efectosSonido = true;
 				musicaSonido = true;
 			}
-		},
-
-		restart : function() {
-			dineros = 2000;
-			dineroTexto = 2000;
-			dineroia = 2000;
-			enanotimer = 0;
-			numeroEnanos = 0;
-			enAtacando = 0;
-			trasAtacando = 0;
-			continua = 0;
-			showDebug = true;
-			niveltropa = 1;
-			textvida = 100;
-			textdaño = 25;
-			
-			tuto = false;
-			tuto_pantalla.alpha = 1;
-			numeroEnemigos = 0;
-			flechatimer = 0;
-			flechatimer2 = 0;
-			basetimer = 0;
-			basetimer2 = 0;
-			mostrarVida2 = false;
-			mostrarVida = false;
-
-			musica.pause();
-			musica.destroy();
-
-			this.game.paused = false;
-			this.state.start('Game');
 		},
 
 		backToMenu : function() {
@@ -541,39 +540,101 @@ DagorDagorath.OnlineGame2.prototype = {
 			basetimer = 0;
 			basetimer2 = 0;
 			
+			tirarEspecial = false;
+			enanId = 0;
+			sacaEn = false;
+			serverDisconnected = false;
+			iAux = 1;
+			
+			especial_Id = [];
+			especial_num = 0;
+			especial_numaux = 0;
+			
+			borrarUser();
+			deleteSessionRoom();
+			
 			musica.pause();
-			musica.destroy();
-
+			musica.destroy();	
+			
 			this.game.paused = false;
 			this.state.start('MainMenu');
+		},
+		
+		backToRoom : function() {
+			dineros = 2000;
+			dineroTexto = 2000;
+			dineroia = 2000;
+			enanotimer = 0;
+			numeroEnanos = 0;
+			enAtacando = 0;
+			trasAtacando = 0;
+			continua = 0;
+			showDebug = true;
+			niveltropa = 1;
+			textvida = 100;
+			textdaño = 40;
+			numeroEnemigos = 0;
+			
+			tuto = false;
+			tuto_pantalla.alpha = 1;
+			flechatimer = 0;
+			flechatimer2 = 0;
+			efectosSonido = true;
+			musicaSonido = true;
+			basetimer = 0;
+			basetimer2 = 0;
+			trasgosId = 0;
+			
+			tirarEspecial = false;
+			enanId = 0;
+			sacaEn = false;
+			serverDisconnected = false;
+			iAux = 1;
+			
+			especial_Id = [];
+			especial_num = 0;
+			especial_numaux = 0;
+			
+			musica.pause();
+			musica.destroy();
+			
+			borrarUser();
+			deleteSessionRoom();
+
+			this.game.paused = false;
+			this.state.start('OnlineRoom');
 		},
 
 		unpause : function(event) 
 		{
-			if (this.game.paused == true) 
+			if (opciones == true) 
 			{
 				if(tuto == false)
 				{
 					tuto = true;
 					tuto_pantalla.alpha = 0;
+					opciones = false;
 					this.game.paused = false;
 				}
 			} 
 			else 
 			{
-				console.log("Menu despausado");
+				if(tuto == false)
+				{
+					tuto = true;
+					tuto_pantalla.alpha = 0;
+					opciones = false;
+					this.game.paused = false;
+				}
 			}
 		},
 
 		update : function() 
-		{
-			if(tuto == true)
+		{	
+			if(sacaEn == true)
 			{
-				this.game.paused = false;
-			} 
-			else if(tuto == false)
-			{
-				this.game.paused = true;
+				this.generateEnanos();
+				sacaEn = false;
 			}
 			
 			// movimiento de camara con raton
@@ -765,6 +826,27 @@ DagorDagorath.OnlineGame2.prototype = {
 				}
 			}
 			
+			if(serverDisconnected)
+			{
+			  	serverDisconnected = false;
+			  	this.game.time.events.remove(timerEvents[iAux]);
+			  	mascaraFin.alpha = 1;
+				pantallaServidorDesconectado.alpha = 1;
+				borrarUser();
+				this.game.time.events.add(Phaser.Timer.SECOND*6, function()
+					{
+						mascaraFin.alpha = 0;
+						pantallaServidorDesconectado.alpha = 0;
+						this.backToMenu();
+					}, this);
+			}
+			
+			if((especial_num == especial_numaux)&&(tirarEspecial == true))
+			{
+				this.ataqueEspecial2();
+				tirarEspecial = false;
+			}
+			
 			this.game.physics.arcade.collide(this.enanos, this.trasgos,this.pruebaColision, null, this);
 			this.game.physics.arcade.overlap(this.enanos, this.enanos, this.colisionMismoGrupo, null, this);
 			this.game.physics.arcade.overlap(this.trasgos, this.trasgos,this.colisionMismoGrupo2, null, this);
@@ -830,19 +912,6 @@ DagorDagorath.OnlineGame2.prototype = {
 			this.game.debug.body(this.enanos.getAll());
 		},
 
-		subirNivel : function() 
-		{
-			if ((dineros > 1000) && (niveltropa == 1)) 
-			{
-				dineros -= 1000;
-				dineroTexto.setText(dineros);
-				niveltropa = 2;
-				lvl.setText('lvl = ' + niveltropa);
-				textvida.setText('vida = ' + 110);
-				textdaño.setText('daño = ' + 45);
-			}
-		},
-
 		generateEnanos : function() 
 		{
 			if (niveltropa == 1) 
@@ -855,6 +924,9 @@ DagorDagorath.OnlineGame2.prototype = {
 				en.vida = 100;
 				en.daño = 40;
 				en.parado = false;
+				
+				en.id = enanId;
+				enanId++;
 				
 				en.animations.add('walk');
 				en.animations.play('walk', 7.5, true);
@@ -872,6 +944,10 @@ DagorDagorath.OnlineGame2.prototype = {
 				
 				en2.vida = 110;
 				en2.daño = 45;
+				en2.parado = false;
+				
+				en.id = enanId;
+				enanId++;
 				
 				en2.animations.add('andar');
 				en2.animations.play('andar', 7.5, true);
@@ -890,10 +966,13 @@ DagorDagorath.OnlineGame2.prototype = {
 			dineroTexto.setText(dineros);
 			
 			var tras;
-			tras = this.trasgos.create(1600, 561, 'Trasgo_Andando_Sheet'); //1600
+			tras = this.trasgos.create(1635, 561, 'Trasgo_Andando_Sheet'); //1600
 			
 			tras.width = 70;
 			tras.height = 50;
+			
+			tras.id = trasgosId;
+			trasgosId++;
 			
 			tras.vida = 75;
 			tras.daño = 20;
@@ -954,7 +1033,7 @@ DagorDagorath.OnlineGame2.prototype = {
 		
 		ataqueEspecial: function()
 		{
-			if((dineroia >= 800)&&(flechatimer == 0))
+			if((dineros >= 800)&&(flechatimer == 0))
 			{
 				ataque1.alpha = 0.3;
 				flechatimer = 1;
@@ -967,22 +1046,39 @@ DagorDagorath.OnlineGame2.prototype = {
 				
 				this.game.time.events.add(Phaser.Timer.SECOND * 24,this.flechastimer , this);
 				
-				var muertes = this.game.rnd.integerInRange(3, numeroEnemigos-1);
+				var muertes = this.game.rnd.integerInRange(3, numeroEnanos-1);
+				
+				var msg = {
+						name : "especial_Tras",
+						message : muertes
+					  }
+				connection.send(JSON.stringify(msg));
+				
 				console.log("MUERTES A MATAR: " + muertes);
+				
 				this.game.time.events.add(Phaser.Timer.SECOND * 2.15,
 						function() 
 						{
 							this.flechas.setAll('y', -60);
 							
-							for(var i = 0; i < muertes; i++)
+							var i = 0;
+							
+							while(i < muertes)
 							{
-								var enemigo = this.trasgos.getFirstExists();
-								var enemigo1 = this.trasgos.getRandomExists();
+								var enemigo = this.enanos.getFirstExists();
+								var enemigo1 = this.enanos.getRandomExists();
 								
 								if((enemigo1 != undefined)&&(enemigo1 != enemigo))
 								{
+									var msg = {
+											name : "especial_enem2",
+											message : enemigo1.id
+										  }
+									connection.send(JSON.stringify(msg));
+									
 									enemigo1.kill();
-									numeroEnemigos--;
+									numeroEnanos--;
+									i++;
 								}
 							}
 						}, this);
@@ -1005,35 +1101,38 @@ DagorDagorath.OnlineGame2.prototype = {
 		
 		ataqueEspecial2: function()
 		{
-			if((dineros >= 800)&&(flechatimer2 == 0))
+			if((especial_num == especial_numaux)&&(flechatimer2 == 0))
 			{
 				flechatimer2 = 1;
 
 				this.flechadora2();
 				
-				dineros -= 800;
-				dineroTexto.setText(dineros);
-				
 				this.game.time.events.add(Phaser.Timer.SECOND * 24, this.flechastimer2, this);
-				
-				var muertes = this.game.rnd.integerInRange(3, numeroEnanos-1);
 				
 				this.game.time.events.add(Phaser.Timer.SECOND * 2.15,
 						function() 
 						{
 							this.flechas2.setAll('y', -60);
 							
-							for(var i = 0; i < muertes; i++)
+							var i = 0;
+							
+							while(i < especial_num)
 							{
-								var enemigo = this.enanos.getFirstExists();
-								var enemigo1 = this.enanos.getRandomExists();
+								var enemigo = this.trasgos.getFirstExists();
+								var enemigo1 = this.trasgos.getAt(especial_Id[i]);
 								
 								if((enemigo1 != undefined)&&(enemigo1 != enemigo))
 								{
 									enemigo1.kill();
-									numeroEnanos--;
+									numeroEnemigos--;
+									i++;
 								}
 							}
+							
+							especial_Id = [];
+							especial_num = 0;
+							especial_numaux = 0;
+							
 						}, this);
 			}
 		},
@@ -1268,9 +1367,8 @@ DagorDagorath.OnlineGame2.prototype = {
 			
 		},
 
-		colisionconbase : function(tropa, base) {
-			// tropa.animations.stop(null, true);
-			console.log('APOSJDPASJDPASODJPASODJAPSDJASPDJASPDJASPDKJASPDKJASPDIJASD');
+		colisionconbase : function(tropa, base) 
+		{
 			tropa.body.velocity.x = 0;
 			tropa.parado = true;
 			this.peleabase(tropa, base);
@@ -1358,80 +1456,17 @@ DagorDagorath.OnlineGame2.prototype = {
 			}
 		},
 
-		actionOnClick : function() // Boton, provisional, para volver al menu de inicio
+		actionOnClick : function()
 		{
-			if (this.game.paused === true)
+			if (opciones == true)
 			{
-				this.game.paused = false;
-				image_menu.alpha = 0;
-				mascara.alpha = 0;
+				opciones = false;
 				
-				if(efectosSonido == false)
-				{
-					botonsonidoff.x = -200;
-					botonsonidoff.y = -200;
-				}
-				else if(efectosSonido == true)
-				{
-					botonsonido.x = -200;
-					botonsonido.y = -200;
-				}
-				
-				if(musicaSonido == false)
-				{
-					botonmusicaoff.x = -200;
-					botonmusicaoff.y = -200;
-				}
-				else if(musicaSonido == true)
-				{
-					botonmusica.x = -200;
-					botonmusica.y = -200;
-				}
-				//musicaSonido
-				
-				button1_menu_Pause.x = -200;
-				button1_menu_Pause.y = -200;
-				button1_menu_Pause.alpha = 0;
-
-				button2_menu_Pause.x = -200;
-				button2_menu_Pause.y = -200;
-				button2_menu_Pause.alpha = 0;
 			} 
 			else 
 			{
-				this.game.paused = true;
-				image_menu.alpha = 1;
-				mascara.alpha = 1;
-
-				if(efectosSonido == false)
-				{
-					botonsonidoff.x = image_menu.x + 110;
-					botonsonidoff.y = image_menu.y + 215;
-				}
-				else if(efectosSonido == true)
-				{
-					botonsonido.x = image_menu.x + 110;
-					botonsonido.y = image_menu.y + 215;
-				}
+				opciones = true;
 				
-				if(musicaSonido == false)
-				{
-					botonmusicaoff.x = image_menu.x + 110;
-					botonmusicaoff.y = image_menu.y + 150;
-				}
-				else if(musicaSonido == true)
-				{
-					botonmusica.x = image_menu.x + 110;
-					botonmusica.y = image_menu.y + 150;
-				}
-				
-				button1_menu_Pause.x = image_menu.x + 100;
-				button1_menu_Pause.y = image_menu.y + 280;
-				button1_menu_Pause.alpha = 1;
-
-				button2_menu_Pause.x = image_menu.x + 320;
-				button2_menu_Pause.y = image_menu.y + 280;
-				button2_menu_Pause.alpha = 1;
 			}
 		},
 		
@@ -1464,7 +1499,7 @@ DagorDagorath.OnlineGame2.prototype = {
 				this.game.time.events.add(Phaser.Timer.SECOND * 3, this.enanostimer, this);
 				
 				var msg = {
-							name : bando,
+							name : "tropa_Tras",
 							message : "tropa"
 					  	  }    
 				connection.send(JSON.stringify(msg));
@@ -1475,6 +1510,15 @@ DagorDagorath.OnlineGame2.prototype = {
 function borrarUser(){
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://localhost:8090/jugadores/' + id
+		url: 'http://192.168.0.155:8090/jugadores/' + id
 	})
+}
+
+function deleteSessionRoom()
+{
+	var msg = {
+			name : "delete",
+			message : "delete session"
+		}
+	connection.send(JSON.stringify(msg));
 }
