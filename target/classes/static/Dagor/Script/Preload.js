@@ -20,6 +20,8 @@ DagorDagorath.Preload.prototype = {
     this.load.audio('isengard','Dagor/audio/isengard.ogg');
     this.load.audio('stab','Dagor/audio/stab.wav');
     this.load.audio('slash','Dagor/audio/slash.wav');
+    this.load.audio('OnlineRoom_Music','Dagor/audio/musica_OnlineRoom.mp3');
+    this.load.audio('arrow','Dagor/audio/161098__braqoon__arrow-damage.wav');//
 
 
     //load game assets
@@ -72,6 +74,8 @@ DagorDagorath.Preload.prototype = {
     this.load.image('Menu_Pausa', 'Dagor/images/Imagen_Menu_Pausa.png');
     this.load.image('Mascara_Menu_Pausa', 'Dagor/images/Mascara_MenuPausa.png');
     this.load.image('Mascara_Tuto', 'Dagor/images/Mascara_Tuto.png');
+    this.load.image('Mascara_Tuto1', 'Dagor/images/Mascara_Tuto1.png');
+    this.load.image('Mascara_Tuto2', 'Dagor/images/Mascara_Tuto2.png');
     this.load.spritesheet('Boton_Menu_Pausa', 'Dagor/images/boton_pausa.png',194,190);
     this.load.spritesheet('sonido', 'Dagor/images/boton_audio.png',194,190);
     this.load.spritesheet('sonido_off', 'Dagor/images/boton_audio_off.png',194,190);
@@ -96,7 +100,8 @@ DagorDagorath.Preload.prototype = {
     this.load.image('Pantalla_Servidor_Desconectado', 'Dagor/images/Imagen_Menu_Desconectado.png');
     this.load.image('PantallaMenu_Servidor_Desconectado', 'Dagor/images/Imagen_MainMenu_Servidor.png');
     this.load.image('Pantalla_Jugador_Desconectado', 'Dagor/images/Imagen_JugadorHuido.png');
-    //Imagen_MainMenu_Servidor.png
+    this.load.image('Panel', 'Dagor/images/panel.png');
+
   },
   create: function() {
   	this.state.start('MainMenu');  //'MainMenu'
