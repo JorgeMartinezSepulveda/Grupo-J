@@ -1,30 +1,17 @@
-- Nombre Jugador: Pepito | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: pesto | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: corpel | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: junan | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: jorge | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: ugyiho | Id: 1 | Bando escogido: Morgoth
-- Nombre Jugador: lolino | Id: 2 | Bando escogido: Valar
-- Nombre Jugador: zxzx89 | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: 9123 | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: 6464 | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: lopotamo | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: sostres | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: lol7979 | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: ogh | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: vkh | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: 098 | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: asdasd | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: holloh | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: oiuytre | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: qwertyu | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: as | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: sas | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: 9164 | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: 357 | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: sosainas | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: gas | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: dsa | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: sadasd | Id: 2 | Bando escogido: Morgoth
-- Nombre Jugador: adsads | Id: 1 | Bando escogido: Valar
-- Nombre Jugador: lkjo | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: jorge | Pass: contraseña | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: pedors | Pass: coño | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: jolimbo97 | Pass: derp | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: osolemio | Pass: probando | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: 123456789 | Pass: asd | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: Master | Pass: pass | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: jotajamo | Pass: jotajamo | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: heavy | Pass: heavy | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: heavy2 | Pass: heavy2 | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: fds | Pass: asd | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: dsa | Pass: asd | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: qwdas | Pass: qasx | Id: 4 | Bando escogido: Valar
+- Nombre Jugador: lkjhgf | Pass: 654 | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: reaytfd | Pass: 314697 | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: 2 | Pass: 2 | Id: 3 | Bando escogido: Valar
+- Nombre Jugador: 1 | Pass: 1 | Id: 4 | Bando escogido: Morgoth
+- Nombre Jugador: asd | Pass: asd | Id: 2 | Bando escogido: Morgoth
