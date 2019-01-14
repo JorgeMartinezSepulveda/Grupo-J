@@ -161,6 +161,7 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
 
 * Pantalla de juego online
 
+![pantalla online3](https://user-images.githubusercontent.com/43203179/51148886-22209b00-1860-11e9-874b-34e90c9efefa.png)
 
  
 # Instrucciones precisas para ejecutar la aplicación
