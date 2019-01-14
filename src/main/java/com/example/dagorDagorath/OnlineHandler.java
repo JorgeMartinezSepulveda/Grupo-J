@@ -36,7 +36,15 @@ public class OnlineHandler extends TextWebSocketHandler {
 		//System.out.println("Message received: " + message.getPayload());
 		JsonNode node = mapper.readTree(message.getPayload());
 		
-		sendOtherParticipants(session, node);
+		if(node.get("message").asText().equals("delete session"))
+		{
+			System.out.println("Session closed: " + session.getId());
+			sessions.remove(session.getId());
+		}
+		else
+		{
+			sendOtherParticipants(session, node);
+		}
 	}
 	
 	private void sendOtherParticipants(WebSocketSession session, JsonNode node) throws IOException {
