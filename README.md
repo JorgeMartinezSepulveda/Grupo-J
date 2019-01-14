@@ -146,6 +146,12 @@ Artista: Nick Phoenix / Thomas Bergersen
 
 ![diagramaclases](https://user-images.githubusercontent.com/43203217/49114096-9cd52d00-f297-11e8-8ef1-23a5b6599c0a.png)
 
+## Fase 4
+* En la cuarta fase he implementado el uso de WebSockets para especialmente el uso "In-Game". Con esto me refiero a que he respetado el codigo de api-rest que ya habia para la conexion previa al juego y he añadido los websockets para el juego en si. A demas se ha ampliado api-rest para introducir una contraseña y poder logear un nombre con cierta seguridad.
+Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando un jugador clicka en uno de sus botones (lanzar tropa o ataque especial) y:
+   * En el caso de la tropa, enviamos un mensaje al servidor con el nombre de "tropa_En" o "tropa_Tras" el cual lo enviara a su vez al        jugador contricante, este lo recibira e instantaneamente lanzara una tropa contricante.
+   * En el caso del ataque especial es un poco mas complejo, primero envia un mensaje de confirmacion que indica que se ha usado el          ataque especial al jugador contrincante, y despues, va enviando mensajes que contienen la posicion del jugador que se ha de              eliminar, ya que la funcion del ataque selecciona un numero de enemigos al azar, por lo tanto mandamos la posicion del enemigo que      ha matado, y como es la misma que la del jugador contrincante, eliminara el mismo numero de enemigos y en la misma posicion.
+ 
 # Instrucciones precisas para ejecutar la aplicación
 
 * Para compilar se correra el archivo DagorDagorathApplication.java como una aplicación de java y esto iniciará el servidor. Para ejecutar el jar escribiremos en el simbolo del sistema la linea java -jar dagorDagorath-0.0.1-SNAPSHOT.jar desde el directorio target de nuestro proyecto. Cada vez que se inicia el servidor se ha de usar localhost:8090 para aceder al juego, si es el ordenador que esta corriedo el servidor.
