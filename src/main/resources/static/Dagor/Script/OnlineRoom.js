@@ -17,10 +17,12 @@ var textoUser1;
 var textoUser2;
 var textoAvisoNombre;
 var textoAvisoServidor;
+var textoAvisoPass;
 
 var textoAvisoNombreNoPermitido;
 
 var arrayNombres;
+var arrayContraseñas;
 var isFree = true;
 
 var mascaraFin;
@@ -28,6 +30,7 @@ var pantallaServidorDesconectado;
 
 var id;
 var name = null;
+var pass = null;
 var bando;
 
 var seleccionado = false;
@@ -45,6 +48,12 @@ var serverDisconnected = false;
 
 var timerEvents = [];
 var iAux = 1;
+var botonsonido;
+var botonsonidoff;
+var musica;
+var musicaSonido = true;
+
+var nuevoUser = true;
 
 var connection;
 
@@ -54,8 +63,27 @@ DagorDagorath.OnlineRoom.prototype = {
 		create: function() 
 		{
 			this.background = this.game.add.tileSprite(0, 0, 1000, 667, 'Fondo');
+			
+			//OnlineRoom_Music
+			musica = this.game.add.audio('OnlineRoom_Music', 0.1, true);
+			if(musicaSonido == true)
+			{
+				musica.play();
+			}
+			
+			connection = new WebSocket('ws://192.168.0.155:8090/dagor');
+			
+			connection.onerror = function(e) 
+			{
+				console.log("WS error: " + e);
+			}
 
-			button = this.game.add.button(20, 20, 'BotonRetroceso', this.actionOnClick, this,1,0);
+			connection.onclose = function() 
+			{
+				cerrarWebsocket();
+			}
+			
+			button = this.game.add.button(15, 15, 'BotonRetroceso', this.actionOnClick, this,1,0);
 			button.width = 85;
 			button.height = 60;
 
@@ -63,12 +91,20 @@ DagorDagorath.OnlineRoom.prototype = {
 			panel.width = 450;
 			panel.height = 55;
 			panel.alpha = 0;
+			
+			panel1 = this.game.add.sprite(136.5, 170, 'Panel');
+			panel1.width = 230;
+			panel1.height = 50;
+			
+			panel2 = this.game.add.sprite(636.5, 170, 'Panel');
+			panel2.width = 230;
+			panel2.height = 50;
+			
+			titulo = this.game.add.sprite(352, 15, 'Titulo_Online');
 
-			titulo = this.game.add.sprite(352, 20, 'Titulo_Online');
+			button2 = this.game.add.button(136.5, 230, 'BotonEnanoOnline', this.actionOnClick2, this,1,0);
 
-			button2 = this.game.add.button(136.5, 220, 'BotonEnanoOnline', this.actionOnClick2, this,1,0);
-
-			button3 = this.game.add.button(636.5, 220, 'BotonTrasgoOnline', this.actionOnClick3, this,1,0);
+			button3 = this.game.add.button(636.5, 230, 'BotonTrasgoOnline', this.actionOnClick3, this,1,0);
 
 			texto = this.add.text(300, 595, '- Conectado al servidor, esperando jugador 2 -', { fontSize: '18px', fill: '#000000' });
 			texto.alpha = 0;
@@ -81,7 +117,7 @@ DagorDagorath.OnlineRoom.prototype = {
 			texto2.strokeThickness = 3.5;
 
 			texto7 = this.add.text(295, 595, '- Conexión establecida, iniciando la partida -', { fontSize: '18px', fill: '#000000' });
-			texto7.alpha = 0;                 //Conexión establecida entre ambos jugadores
+			texto7.alpha = 0;                 
 			texto7.stroke = '#EEE8AA';
 			texto7.strokeThickness = 3.5;
 			
@@ -105,18 +141,45 @@ DagorDagorath.OnlineRoom.prototype = {
 			texto9.stroke = '#000000';
 			texto9.strokeThickness = 3;
 			
-			textoUser1 = this.add.text(390, 415, '- VALAR: ', { fontSize: '18px', fill: '#000000'});
+			botonsonido = this.game.add.button(935, 15, 'sonido', this.sonido, this, 1, 0);
+			botonsonido.width = 50;
+			botonsonido.height = 50;
+			botonsonido.fixedToCamera = true;
 			
-			textoUser2 = this.add.text(390, 465, '- MORGOTH: ', { fontSize: '18px', fill: '#000000'});
+			botonsonidoff = this.game.add.button(935, 15, 'sonido_off', this.sonido, this, 1, 0);
+			botonsonidoff.width = 50;
+			botonsonidoff.height = 50;
+			botonsonidoff.alpha = 0;
+			botonsonidoff.fixedToCamera = true;
 			
-			textoAvisoNombre = this.add.text(396, 375, '* Introduce un nombre *', { fontSize: '18px', fill: '#000000'});
+			if(musicaSonido == true)
+			{
+				botonsonido.alpha = 1;
+				botonsonidoff.alpha = 0;
+			}
+			else
+			{
+				botonsonidoff.alpha = 1;
+				botonsonido.alpha = 0;
+			}
+			
+			textoUser1 = this.add.text(145, 185, ' VALAR: ', { fontSize: '18px', fill: '#EEE8AA'});
+			
+			textoUser2 = this.add.text(645, 185, ' MORGOTH: ', { fontSize: '18px', fill: '#EEE8AA'});
+			
+			textoAvisoNombre = this.add.text(403, 395, '* Nombre invalido *', { fontSize: '18px', fill: '#000000'});
 			textoAvisoNombre.alpha = 0;
 			textoAvisoNombre.stroke = '#EEE8AA';
 			textoAvisoNombre.strokeThickness = 3;
 			
-			textoAvisoNombreNoPermitido = this.add.text(390, 375, '*Ese nombre ya existe*', { fontSize: '18px', fill: '#000000'});
+			textoAvisoPass = this.add.text(380, 395, '* Introduce una contraseña *', { fontSize: '18px', fill: '#000000'});
+			textoAvisoPass.alpha = 0;
+			textoAvisoPass.stroke = '#EEE8AA';
+			textoAvisoPass.strokeThickness = 3;
+			
+			textoAvisoNombreNoPermitido = this.add.text(390, 395, '- Contraseña incorrecta -', { fontSize: '18px', fill: '#000000'});
 			textoAvisoNombreNoPermitido.alpha = 0;
-			textoAvisoNombreNoPermitido.stroke = '#EEE8AA';
+			textoAvisoNombreNoPermitido.stroke = '#FE0000';
 			textoAvisoNombreNoPermitido.strokeThickness = 3;
 			
 
@@ -128,24 +191,57 @@ DagorDagorath.OnlineRoom.prototype = {
 		    pantallaServidorDesconectado.height = 462;
 		    pantallaServidorDesconectado.alpha = 0;
 			
-			texto6 = this.add.text(400, 265, 'Numero de jugadores: 0', { fontSize: '18px', fill: '#000000'});
+			texto6 = this.add.text(400, 510, 'Numero de jugadores: 0', { fontSize: '18px', fill: '#000000'});
 			
 			document.getElementById('namedong').style.display = 'block';
+			document.getElementById('pass').style.display = 'block';
 			
 			timerEvents[iAux] = this.game.time.events.loop(Phaser.Timer.SECOND*0.5, this.comprobarJugadores, this);
 			
 			this.game.time.events.loop(Phaser.Timer.SECOND*0.5, leerFichero, this);
-			
+			this.game.time.events.loop(Phaser.Timer.SECOND*0.5, leerPass, this);
 			
 			//this.actualizar();
 
+		},
+		
+		sonido: function()
+		{
+			if(musicaSonido == true)
+			{
+				musica.pause();
+				
+				botonsonidoff.x = 15;
+				botonsonidoff.y = 15;
+				botonsonidoff.alpha = 1;
+				
+				botonsonido.x = -200;
+				botonsonido.y = -200;
+				botonsonido.alpha = 0;
+				
+				musicaSonido = false;
+			}
+			else if(musicaSonido == false)
+			{
+				musica.play();
+				
+				botonsonido.x = 15;
+				botonsonido.y = 15;
+				botonsonido.alpha = 1;
+				
+				botonsonidoff.x = -200;
+				botonsonidoff.y = -200;
+				botonsonidoff.alpha = 0;
+				
+				musicaSonido = true;
+			}
 		},
 		
 		comprobarJugadores: function()
 		{
 			$.ajax({
 				method: 'GET',
-				url: 'http://localhost:8090/jugadores/',
+				url: 'http://192.168.0.155:8090/jugadores/',
 				success: function(jugadores)
 				{
 					numJugadores = jugadores.length;
@@ -181,6 +277,7 @@ DagorDagorath.OnlineRoom.prototype = {
 				this.game.time.events.remove(timerEvents[iAux]);
 				texto6.setText('');
 				document.getElementById('namedong').style.display = 'none' ;
+				document.getElementById('pass').style.display = 'none' ;
 				mascaraFin.alpha = 1;
 				pantallaServidorDesconectado.alpha = 1;
 				deleteUserRoom();
@@ -307,26 +404,26 @@ DagorDagorath.OnlineRoom.prototype = {
 			{
 				if(listaJugadores[0].personaje == 1)
 				{
-					textoUser1.setText('- VALAR: ' + listaJugadores[0].nombre);
-					textoUser2.setText('- MORGOTH: ');
+					textoUser1.setText(' VALAR: ' + listaJugadores[0].nombre);
+					textoUser2.setText(' MORGOTH: ');
 				} 
 				else if(listaJugadores[0].personaje == 2)
 				{
-					textoUser1.setText('- VALAR: ');
-					textoUser2.setText('- MORGOTH: ' + listaJugadores[0].nombre);
+					textoUser1.setText(' VALAR: ');
+					textoUser2.setText(' MORGOTH: ' + listaJugadores[0].nombre);
 				}
 			}
 			else if((numJugadores == 1)&&(seleccionado)) 
 			{
 				if(listaJugadores[0].personaje == 1)
 				{
-					textoUser1.setText('- VALAR: ' + name);
-					textoUser2.setText('- MORGOTH: ');
+					textoUser1.setText(' VALAR: ' + name);
+					textoUser2.setText(' MORGOTH: ');
 				} 
 				else if(listaJugadores[0].personaje == 2)
 				{
-					textoUser1.setText('- VALAR: ');
-					textoUser2.setText('- MORGOTH: ' + name);
+					textoUser1.setText(' VALAR: ');
+					textoUser2.setText(' MORGOTH: ' + name);
 				}
 				
 			}
@@ -334,19 +431,19 @@ DagorDagorath.OnlineRoom.prototype = {
 			{
 				if(listaJugadores[0].personaje == 1)
 				{
-					textoUser1.setText('- VALAR: ' + listaJugadores[0].nombre);
-					textoUser2.setText('- MORGOTH: ' + listaJugadores[1].nombre);
+					textoUser1.setText(' VALAR: ' + listaJugadores[0].nombre);
+					textoUser2.setText(' MORGOTH: ' + listaJugadores[1].nombre);
 				} 
 				else if(listaJugadores[0].personaje == 2)
 				{
-					textoUser1.setText('- VALAR: ' + listaJugadores[1].nombre);
-					textoUser2.setText('- MORGOTH: ' + listaJugadores[0].nombre);
+					textoUser1.setText(' VALAR: ' + listaJugadores[1].nombre);
+					textoUser2.setText(' MORGOTH: ' + listaJugadores[0].nombre);
 				}
 			}
 			else if(numJugadores == 0)
 			{
-				textoUser1.setText('- VALAR: ');
-				textoUser2.setText('- MORGOTH: ');
+				textoUser1.setText(' VALAR: ');
+				textoUser2.setText(' MORGOTH: ');
 			}
 			
 		},
@@ -354,6 +451,7 @@ DagorDagorath.OnlineRoom.prototype = {
 		actionOnClick: function()
 		{ 
 			deleteUserRoom();
+			deleteSessionRoom();
 			this.reiniciarVariables();
 			this.game.state.start('MainMenu');
 		},
@@ -385,7 +483,13 @@ DagorDagorath.OnlineRoom.prototype = {
 			pantallaServidorDesconectado.alpha = 0;
 			serverDisconnected = false;
 			
+			nuevoUser = true;
+			
+			musica.stop();
+			musica.destroy();
+			
 			document.getElementById('namedong').style.display = 'none' ;
+			document.getElementById('pass').style.display = 'none' ;
 		},
 
 		actionOnClick2: function()
@@ -397,42 +501,67 @@ DagorDagorath.OnlineRoom.prototype = {
 					var input = $('#namedong');
     				name = input.val();
     				
-					if(name !== '')
+    				var input2 = $('#pass');
+    				pass = input2.val();
+    				
+					if((name !== '')&&(name.length < 10))
 					{
-						var contador = 0;
-						
-						while((contador < arrayNombres.length)&&(isFree)&&(arrayNombres[contador] != null))
+						if(pass !== '')
 						{
-							if(arrayNombres[contador] == name)
+							var contador = 0;
+							
+							while((contador < arrayNombres.length)&&(isFree)&&(arrayNombres[contador] != null))
 							{
-								isFree = false;
-								console.log('Nombre cogido ompare')
-								
+								if(arrayNombres[contador] == name)
+								{
+									isFree = false;
+									console.log('Nombre cogido ompare')
+								}
+								else
+								{
+									isFree = true;
+									contador++;
+								}
+							}
+							
+							if(isFree)
+							{
+								console.log(name);
+			    				bando = 1;
+			    				createUser();
+			    				
+			    				var msg = {
+										name : name,
+										message : "connected"
+									  }    
+			    				connection.send(JSON.stringify(msg));
 							}
 							else
 							{
-								isFree = true;
-								contador++;
+								if(arrayContraseñas[contador] == pass)
+								{
+									nuevoUser = false;
+									bando = 1;
+				    				createUser();
+				    				
+				    				var msg = { name: name, message: "connected" }    
+				    				connection.send(JSON.stringify(msg));
+								}
+								else
+								{
+									isFree = true;
+									textoAvisoNombreNoPermitido.alpha = 1;
+									this.game.time.events.add(Phaser.Timer.SECOND*2, function(){textoAvisoNombreNoPermitido.alpha = 0;}, this);
+								}
+								
 							}
-						}
-						
-						if(isFree)
-						{
-							console.log(name);
-		    				bando = 1;
-		    				createUser();
-		    				var msg = {
-									name : name,
-									message : "Ima gei"
-								  }    
-		    				connection.send(JSON.stringify(msg));
 						}
 						else
 						{
-							isFree = true;
-							textoAvisoNombreNoPermitido.alpha = 1;
-							this.game.time.events.add(Phaser.Timer.SECOND*2, function(){textoAvisoNombreNoPermitido.alpha = 0;}, this);
+							textoAvisoPass.alpha = 1;
+							this.game.time.events.add(Phaser.Timer.SECOND*2, function(){textoAvisoPass.alpha = 0;}, this);
 						}
+						
 					}
 					else
 					{
@@ -462,41 +591,62 @@ DagorDagorath.OnlineRoom.prototype = {
 					var input = $('#namedong');
     				name = input.val();
     				
-					if(name !== '')
+    				var input2 = $('#pass');
+    				pass = input2.val();
+    				
+					if((name !== '')&&(name.length < 10))
 					{
-						var contador = 0;
-						
-						while((contador < arrayNombres.length)&&(isFree)&&(arrayNombres[contador] != null))
+						if(pass !== '')
 						{
-							if(arrayNombres[contador] == name)
+							var contador = 0;
+							
+							while((contador < arrayNombres.length)&&(isFree)&&(arrayNombres[contador] != null))
 							{
-								isFree = false;
-								console.log('Nombre cogido ompare')
-								
+								if(arrayNombres[contador] == name)
+								{
+									isFree = false;
+								}
+								else
+								{
+									isFree = true;
+									contador++;
+								}
+							}
+							
+							if(isFree)
+							{
+								console.log(name);
+			    				bando = 2;
+			    				createUser();
+			    				
+			    				var msg = { name: name, message: "connected" }  
+			    				
+								connection.send(JSON.stringify(msg));
 							}
 							else
 							{
-								isFree = true;
-								contador++;
+								if(arrayContraseñas[contador] == pass)
+								{
+									nuevoUser = false;
+									bando = 2;
+				    				createUser();
+				    				
+				    				var msg = { name: name, message: "connected" }
+				    				
+				    				connection.send(JSON.stringify(msg));
+								}
+								else
+								{
+									isFree = true;
+									textoAvisoNombreNoPermitido.alpha = 1;
+									this.game.time.events.add(Phaser.Timer.SECOND*2, function(){textoAvisoNombreNoPermitido.alpha = 0;}, this);
+								}
 							}
-						}
-						
-						if(isFree)
-						{
-							console.log(name);
-		    				bando = 2;
-		    				createUser();
-		    				var msg = {
-										name : name,
-										message : "Ima gei"
-									  }    
-							connection.send(JSON.stringify(msg));
 						}
 						else
 						{
-							isFree = true;
-							textoAvisoNombreNoPermitido.alpha = 1;
-							this.game.time.events.add(Phaser.Timer.SECOND*2, function(){textoAvisoNombreNoPermitido.alpha = 0;}, this);
+							textoAvisoPass.alpha = 1;
+							this.game.time.events.add(Phaser.Timer.SECOND*2, function(){textoAvisoPass.alpha = 0;}, this);
 						}
 					}
 					else
@@ -530,14 +680,23 @@ function deleteUserRoom()
 {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://localhost:8090/jugadores/' + id 
+		url: 'http://192.168.0.155:8090/jugadores/' + id 
 	})
+}
+
+function deleteSessionRoom()
+{
+	var msg = {
+			name : "delete",
+			message : "delete session"
+		}
+	connection.send(JSON.stringify(msg));
 }
 
 function writeUser(){
 	$.ajax({
 		method: "GET",
-		url: 'http://localhost:8090/jugadores/' + id
+		url: 'http://192.168.0.155:8090/jugadores/' + id
 	})
 }
 
@@ -545,17 +704,28 @@ function leerFichero()
 {
 	$.ajax({
 		method: 'GET',
-		url: 'http://localhost:8090/historialJugadores'
+		url: 'http://192.168.0.155:8090/historialJugadores'
 	}).done(function (listaAux) {
 		arrayNombres = listaAux;
+	})
+}
+
+function leerPass()
+{
+	$.ajax({
+		method: 'GET',
+		url: 'http://192.168.0.155:8090/passJugadores'
+	}).done(function (listaAux2) {
+		console.log("COÑO YA HOMBRE")
+		arrayContraseñas = listaAux2;
 	})
 }
 
 function createUser(){
 	$.ajax({
 		method: "POST",
-		url: 'http://localhost:8090/jugadores',   //192.168.0.155
-		data: JSON.stringify({"nombre": name, "conectado":true, "personaje": bando}),
+		url: 'http://192.168.0.155:8090/jugadores',  
+		data: JSON.stringify({"nombre": name, "contraseña": pass, "conectado":true, "personaje": bando}),
 		processData: false,
 		headers: {
 			"Content-Type": "application/json"
@@ -579,21 +749,15 @@ function createUser(){
 		{
 			id = id1;
 			console.log(id);
-			writeUser();
+			if(nuevoUser == true){
+				writeUser();
+			}
 		})
 }
 
-$(document).ready(function() {
 
-	connection = new WebSocket('ws://localhost:8090/dagor');
-	
-	connection.onerror = function(e) 
-	{
-		console.log("WS error: " + e);
-	}
-
-	connection.onclose = function() 
-	{
-		console.log("Closing socket");
-	}
-})
+function cerrarWebsocket()
+{
+	console.log("Closing socket");
+	deleteUserRoom();
+}
