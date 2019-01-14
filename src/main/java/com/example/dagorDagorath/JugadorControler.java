@@ -56,10 +56,14 @@ public class JugadorControler {
 		
 		Jugador jgd = jugadores.get(id);
 		
-		if(jgd != null) {
+		if(jgd != null) 
+		{
+			System.out.println("Player eliminated: " + jgd.getNombre());
 			jugadores.remove(jgd.getId());
 			return new ResponseEntity<>(true, HttpStatus.OK);
-		}else {
+		}
+		else 
+		{
 			return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -72,6 +76,8 @@ public class JugadorControler {
 		Jugador jgd = jugadores.get(id);
 		
 		pw.append("- Nombre Jugador: " + jgd.getNombre());
+		pw.print(' ');
+		pw.print("| Pass: " + jgd.getContraseña());
 		pw.print(' ');
 		pw.print("| Id: " + jgd.getId());
 		pw.print(' ');
@@ -97,10 +103,10 @@ public class JugadorControler {
 		
 		BufferedReader historial = new BufferedReader(new FileReader (new File("target/classes/data.txt")));
 		String line;
-		String [] nombre = new String [50];
+		String [] nombre = new String [200];
 		int aux  = 0;
 
-		while(((line = historial.readLine()) != null)&&(aux<50)) 
+		while(((line = historial.readLine()) != null)&&(aux<200)) 
 		{
 				String [] splited = line.split(" ");
 				nombre[aux] = splited[3];
@@ -110,6 +116,26 @@ public class JugadorControler {
 		
 		historial.close();
 		return nombre;
+	}
+	
+	@RequestMapping(value = "/passJugadores", method  = RequestMethod.GET)
+	public String[] getPassword() throws IOException{
+		
+		BufferedReader historial = new BufferedReader(new FileReader (new File("target/classes/data.txt")));
+		String line;
+		String [] pass = new String [200];
+		int aux  = 0;
+
+		while(((line = historial.readLine()) != null)&&(aux<200)) 
+		{
+				String [] splited = line.split(" ");
+				pass[aux] = splited[6];
+				aux++;
+			
+		}
+		
+		historial.close();
+		return pass;
 	}
 
 }

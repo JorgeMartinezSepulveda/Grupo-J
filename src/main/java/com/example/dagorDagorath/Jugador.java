@@ -4,6 +4,7 @@ public class Jugador {
 	
 	private long id;
 	private String nombre;
+	private String contraseña;
 	private boolean conectado;
 	private int personaje;
 	
@@ -40,6 +41,14 @@ public class Jugador {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getContraseña() {
+		return contraseña;
+	}
+
+	public void setContraseña(String contraseña) {
+		this.contraseña = contraseña;
 	}
 	
 	
