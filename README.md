@@ -170,6 +170,57 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
 # Diagrama de Clases (actualizado):
 ![49114096-9cd52d00-f297-11e8-8ef1-23a5b6599c0a](https://user-images.githubusercontent.com/43203179/51150730-fef9e980-1867-11e9-8cd4-0cd77d4f691c.png)
 
+## Fase 5
+* Para la fase cinco opcional, se ha subido el videojuego offline a itch.io, el cual podra encontrar en el siguiente enlace:
+
+[Dagor Dagorath](https://heavydrummer.itch.io/dagor-dagorath)
+
+* En primer lugar, realice una serie de mejoras al juego offline y online:
+
+    * 1. Se añadio un nuevo ataque especial para tanto jugador como la IA
+    * 2. Se añadieron unas barras de carga para las tropas y conocer el tiempo que le queda para poder lanzarla de nuevo
+    * 3. Se añadieron barras de vida para los personajes que estan siendo atacados.
+    * 4. Se arreglo el combate de manera reseñable y satisfactoria, sin generar problemas de colision de ninguna manera
+    * 5. Se añadio ataque a las bases para que no nos veamos desprotegidos aun que no tengamos tropas (tambien para la IA)
+    * 6. Se añadieron efectos de sonido al combate
+    * 7. Se añadieron botones a la pausa para poder activar o desactivar tanto la musica como los efectos añadidos
+    * 8. se creo una IA real, que tiene en cuenta su dinero, el del jugador, el numero de aliados del jugador y su numero de aliados;            teniendo en cuenta esto, actuara.
+    * 9. Se añadio una pantalla inicial de tutorial para guiar al jugador en el primer contanto con el juego
+    
+ Ejemplos de lo expuesto:
+ 
+ (pantalla tutorial)
+ ![pantalla offline](https://user-images.githubusercontent.com/43203179/51150418-834b6d00-1866-11e9-803f-4fdcbc42c803.png)
+ 
+ 
+ (pantalla pausa)
+ ![pantalla offline2](https://user-images.githubusercontent.com/43203179/51150436-9cecb480-1866-11e9-8db4-a9ad423665c4.png)
+
+ 
+ (panel de tropas y ataques)
+ ![pantalla offline3](https://user-images.githubusercontent.com/43203179/51150459-aece5780-1866-11e9-9fe5-cae32cc522a0.png)
+ 
+ 
+ * Estas fueron unas primeras implementaciones que se realizaron de cara a la fase cinco. Tras subir un primer prototipo a itch.io en modod restringido, se compartio el enlace con varias personas para hacer la parte del Beta-Testing, y se encontraron numerosos bugs:
+    
+    * Mensaje textual: 'otra cosa que me ha pasado es que unos enanos despues de atacar en vez de andar iban deslizandose jajaja'
+    * Mensaje textual: 'creo que cuando hago unos 9/8 enanos dejan de aparecer orcos'
+    * Mensaje textual: 'creo que hay otro bug, que lanza las flechas solas'
+    * Mensaje de voz: 'el mismo problema de los 8/9 enanos, pero cuando se han ido muriendo y ha llegado a seis, la ia se ha puesot a         sacar orcos pero tambien ha tirado el ataque especial, y al morir todos los enanos, los enemigos se han bugeao y me ha crasheao'
+    
+Algunos de los mensajes que me enviaron: (se disculpara el tono desenfadado de la conversacion)
+
+![pruebas](https://user-images.githubusercontent.com/43203179/51150871-b4c53800-1868-11e9-9318-4817bc9e8dac.png)
+![pruebas2](https://user-images.githubusercontent.com/43203179/51150874-b68efb80-1868-11e9-8432-ea9a7756463b.png)
+
+Todos estos son mensajes reales que me comunicaron los jugadores por mensajes privados, ya que solo lo comparti con dos/tres             personas de relacion intima para que me comunicasen los errores, tras esto, procedi a arreglar los errores. Casi todos eran             generados por dos cosas: 
+    
+   * La primera fue por que el codigo no contemplana en su totalidad la subida de nivel de los enanos, por lo tanto al subirlos, habia         problemas con las colisiones y la IA
+   * La siguiente es que la IA solo contemplaba si habia entre 0 a 6 enanos en juego, si habia mas, no hacia nada, por lo tanto si se         sacaban mas enanos la IA no hacia nada
+    
+* Todos los errores que me fueron comentados han sido arreglados mas otros, como que si se lanzaba nuestro ataque especial sin que hubiese mas de tres enemigos, una funcion entraba en bucle y crasheaba el juego, pero esto tambien ha sido arreglado.
+
+
 
 # Instrucciones precisas para ejecutar la aplicación
 
