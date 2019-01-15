@@ -206,7 +206,10 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
     * Mensaje textual: 'creo que hay otro bug, que lanza las flechas solas'
     * Mensaje de voz: 'el mismo problema de los 8/9 enanos, pero cuando se han ido muriendo y ha llegado a seis, la ia se ha puesot a         sacar orcos pero tambien ha tirado el ataque especial, y al morir todos los enanos, los enemigos se han bugeao y me ha crasheao'
     
-Algunos de los mensajes que me enviaron:
+Algunos de los mensajes que me enviaron: (se disculpara el tono desenfadado de la conversacion)
+
+![pruebas](https://user-images.githubusercontent.com/43203179/51150871-b4c53800-1868-11e9-9318-4817bc9e8dac.png)
+![pruebas2](https://user-images.githubusercontent.com/43203179/51150874-b68efb80-1868-11e9-8432-ea9a7756463b.png)
 
 Todos estos son mensajes reales que me comunicaron los jugadores por mensajes privados, ya que solo lo comparti con dos/tres             personas de relacion intima para que me comunicasen los errores, tras esto, procedi a arreglar los errores. Casi todos eran             generados por dos cosas: 
     
