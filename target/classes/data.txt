@@ -15,3 +15,12 @@
 - Nombre Jugador: 2 | Pass: 2 | Id: 3 | Bando escogido: Valar
 - Nombre Jugador: 1 | Pass: 1 | Id: 4 | Bando escogido: Morgoth
 - Nombre Jugador: asd | Pass: asd | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: lolasdasd | Pass: 1 | Id: 1 | Bando escogido: Valar
+- Nombre Jugador: estesi | Pass: 123 | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: qwdqwd | Pass: dwqdwq | Id: 2 | Bando escogido: Morgoth
+- Nombre Jugador: 654 | Pass: aSDASD | Id: 1 | Bando escogido: Morgoth
+- Nombre Jugador: dsdsds | Pass: asasds | Id: 2 | Bando escogido: Valar
+- Nombre Jugador: asdasd | Pass: dcwef  | Id: 3 | Bando escogido: Valar
+- Nombre Jugador: 741 | Pass: 147 | Id: 5 | Bando escogido: Morgoth
+- Nombre Jugador: 123 | Pass: aasd | Id: 6 | Bando escogido: Valar
+- Nombre Jugador: 9515 | Pass: 9515 | Id: 7 | Bando escogido: Morgoth
