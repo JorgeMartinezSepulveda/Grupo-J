@@ -165,6 +165,8 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
 
 ![pantalla online3](https://user-images.githubusercontent.com/43203179/51148886-22209b00-1860-11e9-874b-34e90c9efefa.png)
 
+# Diagrama de Clases (actualizado):
+
 
 ## Fase 5
 * Para la fase cinco opcional, se ha subido el videojuego offline a itch.io, el cual podra encontrar en el siguiente enlace:
@@ -184,6 +186,17 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
     * 9. Se añadio una pantalla inicial de tutorial para guiar al jugador en el primer contanto con el juego
     
  Ejemplos de lo expuesto:
+ 
+ (pantalla tutorial)
+ ![pantalla offline](https://user-images.githubusercontent.com/43203179/51150418-834b6d00-1866-11e9-803f-4fdcbc42c803.png)
+ 
+ 
+ (pantalla pausa)
+ ![pantalla offline2](https://user-images.githubusercontent.com/43203179/51150436-9cecb480-1866-11e9-8db4-a9ad423665c4.png)
+
+ 
+ (panel de tropas y ataques)
+ ![pantalla offline3](https://user-images.githubusercontent.com/43203179/51150459-aece5780-1866-11e9-9fe5-cae32cc522a0.png)
  
  
  * Estas fueron unas primeras implementaciones que se realizaron de cara a la fase cinco. Tras subir un primer prototipo a itch.io en modod restringido, se compartio el enlace con varias personas para hacer la parte del Beta-Testing, y se encontraron numerosos bugs:
