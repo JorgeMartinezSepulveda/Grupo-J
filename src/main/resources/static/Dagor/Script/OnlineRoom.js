@@ -71,7 +71,7 @@ DagorDagorath.OnlineRoom.prototype = {
 				musica.play();
 			}
 			
-			connection = new WebSocket('ws://192.168.0.155:8090/dagor');
+			connection = new WebSocket('ws://localhost:8090/dagor');
 			
 			connection.onerror = function(e) 
 			{
@@ -241,7 +241,7 @@ DagorDagorath.OnlineRoom.prototype = {
 		{
 			$.ajax({
 				method: 'GET',
-				url: 'http://192.168.0.155:8090/jugadores/',
+				url: 'http://localhost:8090/jugadores/',
 				success: function(jugadores)
 				{
 					numJugadores = jugadores.length;
@@ -680,7 +680,7 @@ function deleteUserRoom()
 {
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.0.155:8090/jugadores/' + id 
+		url: 'http://localhost:8090/jugadores/' + id 
 	})
 }
 
@@ -696,7 +696,7 @@ function deleteSessionRoom()
 function writeUser(){
 	$.ajax({
 		method: "GET",
-		url: 'http://192.168.0.155:8090/jugadores/' + id
+		url: 'http://localhost:8090/jugadores/' + id
 	})
 }
 
@@ -704,7 +704,7 @@ function leerFichero()
 {
 	$.ajax({
 		method: 'GET',
-		url: 'http://192.168.0.155:8090/historialJugadores'
+		url: 'http://localhost:8090/historialJugadores'
 	}).done(function (listaAux) {
 		arrayNombres = listaAux;
 	})
@@ -714,7 +714,7 @@ function leerPass()
 {
 	$.ajax({
 		method: 'GET',
-		url: 'http://192.168.0.155:8090/passJugadores'
+		url: 'http://localhost:8090/passJugadores'
 	}).done(function (listaAux2) {
 		console.log("COÑO YA HOMBRE")
 		arrayContraseñas = listaAux2;
@@ -724,7 +724,7 @@ function leerPass()
 function createUser(){
 	$.ajax({
 		method: "POST",
-		url: 'http://192.168.0.155:8090/jugadores',  
+		url: 'http://localhost:8090/jugadores',  
 		data: JSON.stringify({"nombre": name, "contraseña": pass, "conectado":true, "personaje": bando}),
 		processData: false,
 		headers: {

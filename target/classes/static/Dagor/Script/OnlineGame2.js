@@ -460,7 +460,7 @@ DagorDagorath.OnlineGame2.prototype = {
 		{
 			$.ajax({
 				method: 'GET',
-				url: 'http://192.168.0.155:8090/jugadores/',
+				url: 'http://localhost:8090/jugadores/',
 				success: function(jugadores)
 				{
 					numJugadores = jugadores.length;
@@ -1510,7 +1510,7 @@ DagorDagorath.OnlineGame2.prototype = {
 function borrarUser(){
 	$.ajax({
 		method: 'DELETE',
-		url: 'http://192.168.0.155:8090/jugadores/' + id
+		url: 'http://localhost:8090/jugadores/' + id
 	})
 }
 
