@@ -149,6 +149,7 @@ Artista: Nick Phoenix / Thomas Bergersen
 ## Fase 4
 * En la cuarta fase he implementado el uso de WebSockets para especialmente el uso "In-Game". Con esto me refiero a que he respetado el codigo de api-rest que ya habia para la conexion previa al juego y he añadido los websockets para el juego en si. A demas se ha ampliado api-rest para introducir una contraseña y poder logear un nombre con cierta seguridad.
 Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando un jugador clicka en uno de sus botones (lanzar tropa o ataque especial) y:
+
    * En el caso de la tropa, enviamos un mensaje al servidor con el nombre de "tropa_En" o "tropa_Tras" el cual lo enviara a su vez al        jugador contricante, este lo recibira e instantaneamente lanzara una tropa contricante.
    * En el caso del ataque especial es un poco mas complejo, primero envia un mensaje de confirmacion que indica que se ha usado el          ataque especial al jugador contrincante, y despues, va enviando mensajes que contienen la posicion del jugador que se ha de              eliminar, ya que la funcion del ataque selecciona un numero de enemigos al azar, por lo tanto mandamos la posicion del enemigo que      ha matado, y como es la misma que la del jugador contrincante, eliminara el mismo numero de enemigos y en la misma posicion.
 
@@ -159,11 +160,46 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
 
 ![pantalla online2](https://user-images.githubusercontent.com/43203179/51147478-ab34d380-185a-11e9-8bfa-2aa0c189a48d.png)
 
-* Pantalla de juego online
+
+* Pantalla de juego online:
 
 ![pantalla online3](https://user-images.githubusercontent.com/43203179/51148886-22209b00-1860-11e9-874b-34e90c9efefa.png)
 
+
+## Fase 5
+* Para la fase cinco opcional, se ha subido el videojuego offline a itch.io, el cual podra encontrar en el siguiente enlace:
+
+[Dagor Dagorath](https://heavydrummer.itch.io/dagor-dagorath)
+
+* En primer lugar, realice una serie de mejoras al juego offline y online:
+
+    * 1. Se añadio un nuevo ataque especial para tanto jugador como la IA
+    * 2. Se añadieron unas barras de carga para las tropas y conocer el tiempo que le queda para poder lanzarla de nuevo
+    * 3. Se añadieron barras de vida para los personajes que estan siendo atacados.
+    * 4. Se arreglo el combate de manera reseñable y satisfactoria, sin generar problemas de colision de ninguna manera
+    * 5. Se añadio ataque a las bases para que no nos veamos desprotegidos aun que no tengamos tropas (tambien para la IA)
+    * 6. Se añadieron efectos de sonido al combate
+    * 7. Se añadieron botones a la pausa para poder activar o desactivar tanto la musica como los efectos añadidos
+    * 8. se creo una IA real, que tiene en cuenta su dinero, el del jugador, el numero de aliados del jugador y su numero de aliados;            teniendo en cuenta esto, actuara.
+    * 9. Se añadio una pantalla inicial de tutorial para guiar al jugador en el primer contanto con el juego
+    
+ Ejemplos de lo expuesto:
  
+ 
+ * Estas fueron unas primeras implementaciones que se realizaron de cara a la fase cinco. Tras subir un primer prototipo a itch.io en modod restringido, se compartio el enlace con varias personas para hacer la parte del Beta-Testing, y se encontraron numerosos bugs:
+    
+    * Mensaje textual: 'otra cosa que me ha pasado es que unos enanos despues de atacar en vez de andar iban deslizandose jajaja'
+    * Mensaje textual: 'creo que cuando hago unos 9/8 enanos dejan de aparecer orcos'
+    * Mensaje textual: 'creo que hay otro bug, que lanza las flechas solas'
+    * Mensaje de voz: 'el mismo problema de los 8/9 enanos, pero cuando se han ido muriendo y ha llegado a seis, la ia se ha puesot a         sacar orcos pero tambien ha tirado el ataque especial, y al morir todos los enanos, los enemigos se han bugeao y me ha crasheao'
+    
+Todos estos son mensajes reales que me comunicaron los jugadores por mensajes privados, ya que solo lo comparti con dos/tres             personas de relacion intima para que me comunicasen los errores, tras esto, procedi a arreglar los errores. Casi todos eran             generados por dos cosas: 
+    
+   * La primera fue por que el codigo no contemplana en su totalidad la subida de nivel de los enanos, por lo tanto al subirlos, habia         problemas con las colisiones y la IA
+   * La siguiente es que la IA solo contemplaba si habia entre 0 a 6 enanos en juego, si habia mas, no hacia nada, por lo tanto si se         sacaban mas enanos la IA no hacia nada
+    
+* Todos los errores que me fueron comentados han sido arreglados mas otros, como que si se lanzaba nuestro ataque especial sin que hubiese mas de tres enemigos, una funcion entraba en bucle y crasheaba el juego, pero esto tambien ha sido arreglado.
+
 # Instrucciones precisas para ejecutar la aplicación
 
 * Para compilar se correra el archivo DagorDagorathApplication.java como una aplicación de java y esto iniciará el servidor. Para ejecutar el jar escribiremos en el simbolo del sistema la linea java -jar dagorDagorath-0.0.1-SNAPSHOT.jar desde el directorio target de nuestro proyecto. Cada vez que se inicia el servidor se ha de usar localhost:8090 para aceder al juego, si es el ordenador que esta corriedo el servidor.
