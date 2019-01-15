@@ -166,7 +166,7 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
 ![pantalla online3](https://user-images.githubusercontent.com/43203179/51148886-22209b00-1860-11e9-874b-34e90c9efefa.png)
 
 # Diagrama de Clases (actualizado):
-
+![49114096-9cd52d00-f297-11e8-8ef1-23a5b6599c0a](https://user-images.githubusercontent.com/43203179/51150730-fef9e980-1867-11e9-8cd4-0cd77d4f691c.png)
 
 ## Fase 5
 * Para la fase cinco opcional, se ha subido el videojuego offline a itch.io, el cual podra encontrar en el siguiente enlace:
@@ -206,6 +206,8 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
     * Mensaje textual: 'creo que hay otro bug, que lanza las flechas solas'
     * Mensaje de voz: 'el mismo problema de los 8/9 enanos, pero cuando se han ido muriendo y ha llegado a seis, la ia se ha puesot a         sacar orcos pero tambien ha tirado el ataque especial, y al morir todos los enanos, los enemigos se han bugeao y me ha crasheao'
     
+Algunos de los mensajes que me enviaron:
+
 Todos estos son mensajes reales que me comunicaron los jugadores por mensajes privados, ya que solo lo comparti con dos/tres             personas de relacion intima para que me comunicasen los errores, tras esto, procedi a arreglar los errores. Casi todos eran             generados por dos cosas: 
     
    * La primera fue por que el codigo no contemplana en su totalidad la subida de nivel de los enanos, por lo tanto al subirlos, habia         problemas con las colisiones y la IA
