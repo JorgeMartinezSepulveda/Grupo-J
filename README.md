@@ -152,7 +152,7 @@ Cuando entramos al juego, usamos los mensajes de websocket para trasmitir cuando
 
    * En el caso de la tropa, enviamos un mensaje al servidor con el nombre de "tropa_En" o "tropa_Tras" el cual lo enviara a su vez al        jugador contricante, este lo recibira e instantaneamente lanzara una tropa contricante.
    * En el caso del ataque especial es un poco mas complejo, primero envia un mensaje de confirmacion que indica que se ha usado el          ataque especial al jugador contrincante, y despues, va enviando mensajes que contienen la posicion del jugador que se ha de              eliminar, ya que la funcion del ataque selecciona un numero de enemigos al azar, por lo tanto mandamos la posicion del enemigo que      ha matado, y como es la misma que la del jugador contrincante, eliminara el mismo numero de enemigos y en la misma posicion.
-
+   * Video explicativo: piche aquí(https://youtu.be/kNnmFBNRabQ)
 * Pantalla final del Lobby Online (sin logear y con user de ejemplo logeado):
 
 ![pantalla online](https://user-images.githubusercontent.com/43203179/51147270-f1d5fe00-1859-11e9-9e25-961edbbec1b2.png)
